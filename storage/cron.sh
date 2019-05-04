@@ -16,4 +16,4 @@ done
 cd ../../actor-notify-email
 docker-compose run --rm -e "GMAIL_USER=$GMAIL_USER" -e "GMAIL_PASSWORD=$GMAIL_PASSWORD" -e "CONTAINS=Bucurestii" actor-notify-email
 docker-compose run --rm -e "GMAIL_USER=$GMAIL_USER" -e "GMAIL_PASSWORD=$GMAIL_PASSWORD" -e "SECTOR=1" actor-notify-email
-docker-compose run --rm -e "GMAIL_USER=$GMAIL_USER" -e "GMAIL_PASSWORD=$GMAIL_PASSWORD" -e "TYPE=executare" actor-notify-email
+docker-compose run --rm -e "GMAIL_USER=$GMAIL_USER" -e "GMAIL_PASSWORD=$GMAIL_PASSWORD" -e "AD_TYPE=executare" actor-notify-email
