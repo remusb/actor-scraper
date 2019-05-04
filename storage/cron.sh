@@ -8,8 +8,9 @@ if [[ -n "$1" ]]; then
     FORCE_ADD=$1
 fi
 
-for file in "$DIR/../storage/fn/*.js"; do
-    key=$(basename ${file%.*})
+for file in "../storage/fn/*.js"; do
+    baseFile=$(basename -- ${file})
+    key="${baseFile%%.*}"
     echo "Running ${key}"
     docker-compose run --rm -e "FORCE_ADD=${FORCE_ADD}" ${key}
 done
