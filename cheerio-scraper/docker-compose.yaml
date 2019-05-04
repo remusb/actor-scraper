@@ -1,0 +1,86 @@
+version: '2.1'
+services:
+    executari-com:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        environment:
+            - APIFY_LOCAL_STORAGE_DIR=/storage
+            - APIFY_MEMORY_MBYTES=2048
+            - APIFY_HEADLESS=1
+            - APIFY_DEFAULT_DATASET_ID=executari-com
+            - APIFY_DEFAULT_KEY_VALUE_STORE_ID=executari-com
+            - APIFY_DEFAULT_REQUEST_QUEUE_ID=executari-com
+        volumes:
+            - ./../storage/key_value_stores:/storage/key_value_stores
+            - ./../storage/fn/executari-com.js:/usr/src/app/src/page_function.js
+    uniuneaexecutorilor-ro:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        environment:
+            - APIFY_LOCAL_STORAGE_DIR=/storage
+            - APIFY_MEMORY_MBYTES=2048
+            - APIFY_HEADLESS=1
+            - APIFY_DEFAULT_DATASET_ID=uniuneaexecutorilor-ro
+            - APIFY_DEFAULT_KEY_VALUE_STORE_ID=uniuneaexecutorilor-ro
+            - APIFY_DEFAULT_REQUEST_QUEUE_ID=uniuneaexecutorilor-ro
+        volumes:
+            - ./../storage/key_value_stores:/storage/key_value_stores
+            - ./../storage/fn/uniuneaexecutorilor-ro.js:/usr/src/app/src/page_function.js
+    olx-ro:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        environment:
+            - APIFY_LOCAL_STORAGE_DIR=/storage
+            - APIFY_MEMORY_MBYTES=2048
+            - APIFY_HEADLESS=1
+            - APIFY_DEFAULT_DATASET_ID=olx-ro
+            - APIFY_DEFAULT_KEY_VALUE_STORE_ID=olx-ro
+            - APIFY_DEFAULT_REQUEST_QUEUE_ID=olx-ro
+        volumes:
+            - ./../storage/key_value_stores:/storage/key_value_stores
+            - ./../storage/fn/olx-ro.js:/usr/src/app/src/page_function.js
+    imobiliare-ro:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        environment:
+            - APIFY_LOCAL_STORAGE_DIR=/storage
+            - APIFY_MEMORY_MBYTES=2048
+            - APIFY_HEADLESS=1
+            - APIFY_DEFAULT_DATASET_ID=imobiliare-ro
+            - APIFY_DEFAULT_KEY_VALUE_STORE_ID=imobiliare-ro
+            - APIFY_DEFAULT_REQUEST_QUEUE_ID=imobiliare-ro
+        volumes:
+            - ./../storage/key_value_stores:/storage/key_value_stores
+            - ./../storage/fn/imobiliare-ro.js:/usr/src/app/src/page_function.js
+    homezz-ro:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        environment:
+            - APIFY_LOCAL_STORAGE_DIR=/storage
+            - APIFY_MEMORY_MBYTES=2048
+            - APIFY_HEADLESS=1
+            - APIFY_DEFAULT_DATASET_ID=homezz-ro
+            - APIFY_DEFAULT_KEY_VALUE_STORE_ID=homezz-ro
+            - APIFY_DEFAULT_REQUEST_QUEUE_ID=homezz-ro
+        volumes:
+            - ./../storage/key_value_stores:/storage/key_value_stores
+            - ./../storage/fn/homezz-ro.js:/usr/src/app/src/page_function.js
+    publi24-ro:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        environment:
+            - APIFY_LOCAL_STORAGE_DIR=/storage
+            - APIFY_MEMORY_MBYTES=2048
+            - APIFY_HEADLESS=1
+            - APIFY_DEFAULT_DATASET_ID=publi24-ro
+            - APIFY_DEFAULT_KEY_VALUE_STORE_ID=publi24-ro
+            - APIFY_DEFAULT_REQUEST_QUEUE_ID=publi24-ro
+        volumes:
+            - ./../storage/key_value_stores:/storage/key_value_stores
+            - ./../storage/fn/publi24-ro.js:/usr/src/app/src/page_function.js

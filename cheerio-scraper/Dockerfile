@@ -12,3 +12,5 @@ RUN npm --quiet set progress=false \
  && node --version \
  && echo "NPM version:" \
  && npm --version
+
+ RUN mkdir -p /storage

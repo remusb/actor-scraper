@@ -1,0 +1,26 @@
+{
+  "startUrls": [
+    {
+      "url": "https://www.imobiliare.ro/vanzare-terenuri-constructii/bucuresti?id=28740727&pagina=1",
+      "method": "GET"
+    }
+  ],
+  "useRequestQueue": true,
+  "pseudoUrls": [
+    {
+      "purl": "https://www.imobiliare.ro/vanzare-terenuri-constructii/bucuresti?id=28740727&pagina=[([\\d]+)]",
+      "method": "GET"
+    }
+  ],
+  "linkSelector": "a",
+  "proxyConfiguration": {
+    "useApifyProxy": false
+  },
+  "debugLog": false,
+  "ignoreSslErrors": true,
+  "maxCrawlingDepth": 1,
+  "pageFunctionTimeoutSecs": 300,
+  "customData": {
+    "DOMAIN": "https://www.imobiliare.ro"
+  }
+}

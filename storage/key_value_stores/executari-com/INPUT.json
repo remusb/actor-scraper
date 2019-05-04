@@ -1,0 +1,26 @@
+{
+  "startUrls": [
+    {
+      "url": "https://www.executari.com/lista_bunuri.php?cat=6&judet=50&pmax=100000&p=1",
+      "method": "GET"
+    }
+  ],
+  "useRequestQueue": true,
+  "pseudoUrls": [
+    {
+      "purl": "https://www.executari.com/lista_bunuri.php?cat=6&judet=50&pmax=100000&p=[([\\d]+)]",
+      "method": "GET"
+    }
+  ],
+  "linkSelector": "a",
+  "proxyConfiguration": {
+    "useApifyProxy": false
+  },
+  "debugLog": false,
+  "ignoreSslErrors": true,
+  "maxCrawlingDepth": 1,
+  "pageFunctionTimeoutSecs": 300,
+  "customData": {
+    "DOMAIN": "https://www.executari.com"
+  }
+}

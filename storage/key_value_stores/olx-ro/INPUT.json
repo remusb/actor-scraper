@@ -1,0 +1,26 @@
+{
+  "startUrls": [
+    {
+      "url": "https://www.olx.ro/imobiliare/terenuri/bucuresti-ilfov-judet/q-Bucurestii-Noi/?search%5Bfilter_float_price%3Afrom%5D=30000&search%5Bfilter_float_price%3Ato%5D=100000&search%5Bfilter_enum_extravilan_interavilan%5D%5B0%5D=intravilan&search%5Bfilter_float_m%3Afrom%5D=200&search%5Bfilter_float_m%3Ato%5D=500&search%5Border%5D=created_at%3Adesc&page=1",
+      "method": "GET"
+    }
+  ],
+  "useRequestQueue": true,
+  "pseudoUrls": [
+    {
+      "purl": "https://www.olx.ro/imobiliare/terenuri/bucuresti-ilfov-judet/q-Bucurestii-Noi/?search%5Bfilter_float_price%3Afrom%5D=30000&search%5Bfilter_float_price%3Ato%5D=100000&search%5Bfilter_enum_extravilan_interavilan%5D%5B0%5D=intravilan&search%5Bfilter_float_m%3Afrom%5D=200&search%5Bfilter_float_m%3Ato%5D=500&search%5Border%5D=created_at%3Adesc&page=[([\\d]+)]",
+      "method": "GET"
+    }
+  ],
+  "linkSelector": "a",
+  "proxyConfiguration": {
+    "useApifyProxy": false
+  },
+  "debugLog": false,
+  "ignoreSslErrors": true,
+  "maxCrawlingDepth": 1,
+  "pageFunctionTimeoutSecs": 300,
+  "customData": {
+    "DOMAIN": "https://www.olx.ro"
+  }
+}
