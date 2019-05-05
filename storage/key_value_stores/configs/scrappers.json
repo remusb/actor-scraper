@@ -1,4 +1,6 @@
 {
     "maxRetry": 3,
-    "ronToEur": 4.76
+    "ronToEur": 4.76,
+    "maxPrice": 100000,
+    "minPrice": 30000
 }

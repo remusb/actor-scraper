@@ -1,0 +1,26 @@
+{
+  "startUrls": [
+    {
+      "url": "https://www.imo-nord.ro/oferte-imobiliare/sale/land/?count=12&keyw=&land_type=1&n=0#product-list",
+      "method": "GET"
+    }
+  ],
+  "useRequestQueue": true,
+  "pseudoUrls": [
+    {
+      "purl": "https://www.imo-nord.ro/oferte-imobiliare/sale/land/?count=12&keyw=&land_type=1&n=[([\\d]+)]#product-list",
+      "method": "GET"
+    }
+  ],
+  "linkSelector": "a",
+  "proxyConfiguration": {
+    "useApifyProxy": false
+  },
+  "debugLog": false,
+  "ignoreSslErrors": true,
+  "maxCrawlingDepth": 1,
+  "pageFunctionTimeoutSecs": 300,
+  "customData": {
+    "DOMAIN": "https://www.imo-nord.ro"
+  }
+}

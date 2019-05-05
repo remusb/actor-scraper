@@ -84,3 +84,17 @@ services:
         volumes:
             - ./../storage/key_value_stores:/storage/key_value_stores
             - ./../storage/fn/publi24-ro.js:/usr/src/app/src/page_function.js
+    imo-nord-ro:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        environment:
+            - APIFY_LOCAL_STORAGE_DIR=/storage
+            - APIFY_MEMORY_MBYTES=2048
+            - APIFY_HEADLESS=1
+            - APIFY_DEFAULT_DATASET_ID=imo-nord-ro
+            - APIFY_DEFAULT_KEY_VALUE_STORE_ID=imo-nord-ro
+            - APIFY_DEFAULT_REQUEST_QUEUE_ID=imo-nord-ro
+        volumes:
+            - ./../storage/key_value_stores:/storage/key_value_stores
+            - ./../storage/fn/imo-nord-ro.js:/usr/src/app/src/page_function.js
