@@ -8,3 +8,5 @@ src/page_function.js
 
 storage/key_value_stores/terenuri
 storage/key_value_stores/case
+CHEERIO_SCRAPER-REQUEST_LIST_STATE.json
+OUTPUT_*
