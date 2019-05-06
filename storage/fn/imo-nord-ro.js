@@ -16,7 +16,7 @@ async function pageFunction(context) {
         const entry = crawlPage(request.userData.entry);
         entries[entry.id] = entry;
         await terenuriStore.setValue(entry.id, entry);
-        // console.log(`Updated ${entry.id}`);
+        console.log(`Updated ${entry.id}`);
     } else {
         await crawlListing();
     }
