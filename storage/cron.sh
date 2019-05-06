@@ -13,7 +13,7 @@ if [[ -n "$2" ]]; then
     FORCE_NOTIFY=$2
 fi
 
-for file in "../storage/fn/*.js"; do
+for file in ../storage/fn/*.js; do
     baseFile=$(basename -- ${file})
     key="${baseFile%%.*}"
     echo "Running ${key}"
