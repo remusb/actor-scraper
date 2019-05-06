@@ -98,3 +98,17 @@ services:
         volumes:
             - ./../storage/key_value_stores:/storage/key_value_stores
             - ./../storage/fn/imo-nord-ro.js:/usr/src/app/src/page_function.js
+    brizaland-ro:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        environment:
+            - APIFY_LOCAL_STORAGE_DIR=/storage
+            - APIFY_MEMORY_MBYTES=2048
+            - APIFY_HEADLESS=1
+            - APIFY_DEFAULT_DATASET_ID=brizaland-ro
+            - APIFY_DEFAULT_KEY_VALUE_STORE_ID=brizaland-ro
+            - APIFY_DEFAULT_REQUEST_QUEUE_ID=brizaland-ro
+        volumes:
+            - ./../storage/key_value_stores:/storage/key_value_stores
+            - ./../storage/fn/brizaland-ro.js:/usr/src/app/src/page_function.js
