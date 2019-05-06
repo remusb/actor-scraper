@@ -13,11 +13,11 @@ if [[ -n "$2" ]]; then
     FORCE_NOTIFY=$2
 fi
 
+/usr/local/bin/docker-compose build
 for file in ../storage/fn/*.js; do
     baseFile=$(basename -- ${file})
     key="${baseFile%%.*}"
     echo "Running ${key}"
-    /usr/local/bin/docker-compose build
     /usr/local/bin/docker-compose run --rm -e "FORCE_ADD=${FORCE_ADD}" ${key}
 done
 
