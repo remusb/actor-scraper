@@ -52,14 +52,14 @@ async function pageFunction(context) {
         for (let i = 0; i < elems.length; i++) {
             const $el = $(elems[i]);
             let priceText = $('div.pret span.pret-mare', $el).text().trim();
+            if (priceText == null) {
+                priceText = "0";
+            }
 
             // format number
             priceText = priceText.replace(/ /g, '');
             priceText = priceText.replace(/\./g, '');
             priceText = priceText.replace(/,/g, '.');
-            if (priceText == null) {
-                priceText = "0";
-            }
             let price = parseFloat(priceText);
 
             const entry = {
