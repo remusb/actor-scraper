@@ -52,7 +52,7 @@ async function pageFunction(context) {
         for (let i = 0; i < elems.length; i++) {
             const $el = $(elems[i]);
             let priceText = $('div.pret span.pret-mare', $el).text().trim();
-            if (priceText == null) {
+            if (priceText == null || priceText == "") {
                 priceText = "0";
             }
 
