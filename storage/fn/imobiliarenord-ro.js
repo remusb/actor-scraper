@@ -4,7 +4,7 @@ async function pageFunction(context) {
     log.info(`URL: ${request.url} TITLE: ${title}`);
     let entries = {};
     const domain = context.customData.DOMAIN;
-    const terenuriStore = await context.Apify.openKeyValueStore('terenuri' );
+    const adStore = await context.Apify.openKeyValueStore('terenuri' );
     const configStore = await context.Apify.openKeyValueStore('configs' );
     const configMap = await configStore.getValue('scrappers');
     const maxRetry = configMap.maxRetry;
@@ -15,10 +15,17 @@ async function pageFunction(context) {
 
     if (request.userData.label === "DETAIL") {
         const entry = crawlPage(request.userData.entry);
+
         if (entry != null) {
             entries[entry.id] = entry;
-            await terenuriStore.setValue(entry.id, entry);
-            console.log(`Updated ${entry.id}`);
+
+            if (process.env.SAMPLE == "1") {
+                console.log('SAMPLE:');
+                console.log(JSON.stringify(entry));
+            } else {
+                await adStore.setValue(entry.id, entry);
+                console.log(`Updated ${entry.id}`);
+            }
         }
     } else {
         await crawlListing();
@@ -112,7 +119,7 @@ async function pageFunction(context) {
                 url: $('div.unit_type3_details a', $el).attr('href')
             };
 
-            const storeEntry = await terenuriStore.getValue(entry.id);
+            const storeEntry = await adStore.getValue(entry.id);
             if (process.env.FORCE_ADD != "1" && storeEntry != null && storeEntry.price == entry.price) {
                 // log.info(`Skipping ${entry.id}`);
                 skipped++;

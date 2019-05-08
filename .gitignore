@@ -13,3 +13,4 @@ CHEERIO_SCRAPER-REQUEST_LIST_SOURCES.json
 OUTPUT_*
 cron.err.log
 cron.log
+/storage/key_value_stores/**/INPUT.json

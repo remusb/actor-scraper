@@ -1,7 +1,7 @@
 async function pageFunction(context) {
     const { request, log, $ } = context;
     const domain = context.customData.DOMAIN;
-    const terenuriStore = await context.Apify.openKeyValueStore('terenuri' );
+    const adStore = await context.Apify.openKeyValueStore('terenuri' );
     const configStore = await context.Apify.openKeyValueStore('configs' );
     const configMap = await configStore.getValue('scrappers');
     const maxRetry = configMap.maxRetry;
@@ -67,13 +67,20 @@ async function pageFunction(context) {
                 entry.sector = parseInt(sectorInfo[2]);
             }
 
-            const storeEntry = await terenuriStore.getValue(entry.id);
+            const storeEntry = await adStore.getValue(entry.id);
             if (process.env.FORCE_ADD != "1" && storeEntry != null && storeEntry.price == entry.price) {
                 // log.info(`Skipping ${entry.id}`);
                 skipped++;
                 continue;
             }
-            await terenuriStore.setValue(entry.id, entry);
+
+            if (process.env.SAMPLE == "1") {
+                console.log('SAMPLE:');
+                console.log(JSON.stringify(entry));
+                return;
+            } else {
+                await adStore.setValue(entry.id, entry);
+            }
 
             entries[entry.id] = entry;
             cnt++;

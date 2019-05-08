@@ -11,6 +11,10 @@ services:
             - APIFY_DEFAULT_DATASET_ID=executari-com
             - APIFY_DEFAULT_KEY_VALUE_STORE_ID=executari-com
             - APIFY_DEFAULT_REQUEST_QUEUE_ID=executari-com
+            - START_URL='https://www.executari.com/lista_bunuri.php?cat=6&judet=50&pmax=100000&p=1'
+            - PSEUDO_URL='https://www.executari.com/lista_bunuri.php?cat=6&judet=50&pmax=100000&p=[([\\d]+)]'
+            - DOMAIN='https://www.executari.com'
+            - SAMPLE=0
         volumes:
             - ./../storage/key_value_stores:/storage/key_value_stores
             - ./../storage/fn/executari-com.js:/usr/src/app/src/page_function.js
@@ -25,6 +29,10 @@ services:
             - APIFY_DEFAULT_DATASET_ID=uniuneaexecutorilor-ro
             - APIFY_DEFAULT_KEY_VALUE_STORE_ID=uniuneaexecutorilor-ro
             - APIFY_DEFAULT_REQUEST_QUEUE_ID=uniuneaexecutorilor-ro
+            - START_URL='https://www.registru.uniuneaexecutorilor.ro/judet/bucuresti/categorie/teren?sort=pub.auction_date&direction=desc&page=1'
+            - PSEUDO_URL='https://www.registru.uniuneaexecutorilor.ro/judet/bucuresti/categorie/teren?sort=pub.auction_date&direction=desc&page=[([\\d]+)]'
+            - DOMAIN='https://www.registru.uniuneaexecutorilor.ro'
+            - SAMPLE=0
         volumes:
             - ./../storage/key_value_stores:/storage/key_value_stores
             - ./../storage/fn/uniuneaexecutorilor-ro.js:/usr/src/app/src/page_function.js
@@ -39,6 +47,10 @@ services:
             - APIFY_DEFAULT_DATASET_ID=olx-ro
             - APIFY_DEFAULT_KEY_VALUE_STORE_ID=olx-ro
             - APIFY_DEFAULT_REQUEST_QUEUE_ID=olx-ro
+            - START_URL='https://www.olx.ro/imobiliare/terenuri/bucuresti-ilfov-judet/q-Bucurestii-Noi/?search%5Bfilter_float_price%3Afrom%5D=30000&search%5Bfilter_float_price%3Ato%5D=100000&search%5Bfilter_enum_extravilan_interavilan%5D%5B0%5D=intravilan&search%5Bfilter_float_m%3Afrom%5D=200&search%5Bfilter_float_m%3Ato%5D=500&search%5Border%5D=created_at%3Adesc&page=1'
+            - PSEUDO_URL='https://www.olx.ro/imobiliare/terenuri/bucuresti-ilfov-judet/q-Bucurestii-Noi/?search%5Bfilter_float_price%3Afrom%5D=30000&search%5Bfilter_float_price%3Ato%5D=100000&search%5Bfilter_enum_extravilan_interavilan%5D%5B0%5D=intravilan&search%5Bfilter_float_m%3Afrom%5D=200&search%5Bfilter_float_m%3Ato%5D=500&search%5Border%5D=created_at%3Adesc&page=[([\\d]+)]'
+            - DOMAIN='https://www.olx.ro'
+            - SAMPLE=0
         volumes:
             - ./../storage/key_value_stores:/storage/key_value_stores
             - ./../storage/fn/olx-ro.js:/usr/src/app/src/page_function.js
@@ -53,6 +65,10 @@ services:
             - APIFY_DEFAULT_DATASET_ID=imobiliare-ro
             - APIFY_DEFAULT_KEY_VALUE_STORE_ID=imobiliare-ro
             - APIFY_DEFAULT_REQUEST_QUEUE_ID=imobiliare-ro
+            - START_URL='https://www.imobiliare.ro/vanzare-terenuri-constructii/bucuresti?id=28740727&pagina=1'
+            - PSEUDO_URL='https://www.imobiliare.ro/vanzare-terenuri-constructii/bucuresti?id=28740727&pagina=[([\\d]+)]'
+            - DOMAIN='https://www.imobiliare.ro'
+            - SAMPLE=0
         volumes:
             - ./../storage/key_value_stores:/storage/key_value_stores
             - ./../storage/fn/imobiliare-ro.js:/usr/src/app/src/page_function.js
@@ -67,6 +83,10 @@ services:
             - APIFY_DEFAULT_DATASET_ID=homezz-ro
             - APIFY_DEFAULT_KEY_VALUE_STORE_ID=homezz-ro
             - APIFY_DEFAULT_REQUEST_QUEUE_ID=homezz-ro
+            - START_URL='https://homezz.ro/anunturi_terenuri_de-vanzare_in-bucuresti-if_pret-de-la-30000-pana-la-100000-eur_ordonare-dupa-data-descrescator_fara-poze.html?tsf=200&tst=300&tt=1&tt2=1'
+            - PSEUDO_URL='https://homezz.ro/anunturi_terenuri_de-vanzare_in-bucuresti-if_pret-de-la-30000-pana-la-100000-eur_ordonare-dupa-data-descrescator_fara-poze_[([\\d]+)].html?tsf=200&tst=300&tt=1&tt2=1'
+            - DOMAIN='https://homezz.ro'
+            - SAMPLE=0
         volumes:
             - ./../storage/key_value_stores:/storage/key_value_stores
             - ./../storage/fn/homezz-ro.js:/usr/src/app/src/page_function.js
@@ -81,6 +101,10 @@ services:
             - APIFY_DEFAULT_DATASET_ID=publi24-ro
             - APIFY_DEFAULT_KEY_VALUE_STORE_ID=publi24-ro
             - APIFY_DEFAULT_REQUEST_QUEUE_ID=publi24-ro
+            - START_URL='https://www.publi24.ro/anunturi/imobiliare/de-vanzare/terenuri/bucuresti/?minprice=30000&maxprice=100000&pag=1'
+            - PSEUDO_URL='https://www.publi24.ro/anunturi/imobiliare/de-vanzare/terenuri/bucuresti/?minprice=30000&maxprice=100000&pag=[([\\d]+)]'
+            - DOMAIN='https://www.publi24.ro'
+            - SAMPLE=0
         volumes:
             - ./../storage/key_value_stores:/storage/key_value_stores
             - ./../storage/fn/publi24-ro.js:/usr/src/app/src/page_function.js
@@ -95,6 +119,10 @@ services:
             - APIFY_DEFAULT_DATASET_ID=imo-nord-ro
             - APIFY_DEFAULT_KEY_VALUE_STORE_ID=imo-nord-ro
             - APIFY_DEFAULT_REQUEST_QUEUE_ID=imo-nord-ro
+            - START_URL='https://www.imo-nord.ro/oferte-imobiliare/sale/land/?count=12&keyw=&land_type=1&n=0#product-list'
+            - PSEUDO_URL='https://www.imo-nord.ro/oferte-imobiliare/sale/land/?count=12&keyw=&land_type=1&n=[([\\d]+)]#product-list'
+            - DOMAIN='https://www.imo-nord.ro'
+            - SAMPLE=0
         volumes:
             - ./../storage/key_value_stores:/storage/key_value_stores
             - ./../storage/fn/imo-nord-ro.js:/usr/src/app/src/page_function.js
@@ -109,6 +137,10 @@ services:
             - APIFY_DEFAULT_DATASET_ID=brizaland-ro
             - APIFY_DEFAULT_KEY_VALUE_STORE_ID=brizaland-ro
             - APIFY_DEFAULT_REQUEST_QUEUE_ID=brizaland-ro
+            - START_URL='http://www.brizaland.ro/brizaland/ro/lista/vanzari-terenuri/--0-0-data-desc/1/-/'
+            - PSEUDO_URL='http://www.brizaland.ro/brizaland/ro/lista/vanzari-terenuri/--0-0-data-desc/[([\\d]+)]/-/'
+            - DOMAIN='http://www.brizaland.ro'
+            - SAMPLE=0
         volumes:
             - ./../storage/key_value_stores:/storage/key_value_stores
             - ./../storage/fn/brizaland-ro.js:/usr/src/app/src/page_function.js
@@ -123,6 +155,10 @@ services:
             - APIFY_DEFAULT_DATASET_ID=imobiliarenord-ro
             - APIFY_DEFAULT_KEY_VALUE_STORE_ID=imobiliarenord-ro
             - APIFY_DEFAULT_REQUEST_QUEUE_ID=imobiliarenord-ro
+            - START_URL='https://imobiliarenord.ro/listings/terenuri/'
+            - PSEUDO_URL='https://imobiliarenord.ro/listings/terenuri/page/[([\\d]+)]/'
+            - DOMAIN='https://imobiliarenord.ro'
+            - SAMPLE=0
         volumes:
             - ./../storage/key_value_stores:/storage/key_value_stores
             - ./../storage/fn/imobiliarenord-ro.js:/usr/src/app/src/page_function.js
