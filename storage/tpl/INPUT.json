@@ -1,0 +1,26 @@
+{
+  "startUrls": [
+    {
+      "url": "%START_URL",
+      "method": "GET"
+    }
+  ],
+  "useRequestQueue": true,
+  "pseudoUrls": [
+    {
+      "purl": "%PSEUDO_URL",
+      "method": "GET"
+    }
+  ],
+  "linkSelector": "a",
+  "proxyConfiguration": {
+    "useApifyProxy": false
+  },
+  "debugLog": false,
+  "ignoreSslErrors": true,
+  "maxCrawlingDepth": 1,
+  "pageFunctionTimeoutSecs": 300,
+  "customData": {
+    "DOMAIN": "%DOMAIN"
+  }
+}
