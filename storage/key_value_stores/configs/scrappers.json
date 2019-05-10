@@ -3,5 +3,8 @@
     "ronToEur": 4.76,
     "maxPrice": 100000,
     "minPrice": 30000,
-    "mpPrice": 350
+    "mpPrice": 350,
+    "maxPriceHouse": 200000,
+    "minPriceHouse": 50000,
+    "minRooms": 3
 }

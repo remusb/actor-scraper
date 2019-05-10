@@ -19,7 +19,7 @@ async function pageFunction(context) {
         if (entry != null) {
             entries[entry.id] = entry;
 
-            if (process.env.SAMPLE == "1") {
+            if (process.env.SAMPLE == "1" || process.env.SAMPLE_KEY == entry.id) {
                 console.log('SAMPLE:');
                 console.log(JSON.stringify(entry));
             } else {
@@ -62,6 +62,15 @@ async function pageFunction(context) {
         if (sizeInfo != null && sizeInfo.length > 1) {
             entry.size = parseFloat(sizeInfo[1]);
         }
+        if (entry.price === 0) {
+            const price = parsePrice($('span.price_area').text().trim());
+            if ((price < minPrice || price > maxPrice) && price > mpPrice) {
+                log.info(`Skipping because of price: ${price}`);
+                return;
+            }
+            entry.price = price;
+        }
+
         let newPrice = entry.price;
         if (newPrice <= mpPrice) {
             newPrice = entry.price * entry.size;
@@ -82,22 +91,7 @@ async function pageFunction(context) {
 
         for (let i = 0; i < elems.length; i++) {
             const $el = elems[i];
-            let priceText = $('div.listing_unit_price_wrapper', $el).text().trim();
-            if (priceText == null || priceText == "") {
-                priceText = "0";
-            }
-
-            // format number
-            priceText = priceText.replace(/\s/g, '');
-            priceText = priceText.replace(/\./g, '');
-            priceText = priceText.replace(/,/g, '.');
-            if (priceText.includes("nespecificat")) {
-                continue;
-            }
-            let price = parseFloat(priceText);
-            if (priceText.includes("RON")) {
-                price = Math.round(price/ronToEur);
-            }
+            const price = parsePrice($('div.listing_unit_price_wrapper', $el).text().trim());
             if ((price < minPrice || price > maxPrice) && price > mpPrice) {
                 log.info(`Skipping because of price: ${price}`);
                 continue;
@@ -118,26 +112,53 @@ async function pageFunction(context) {
                 notified: false,
                 url: $('div.unit_type3_details a', $el).attr('href')
             };
+            console.log(`${entry.id} - ${price}`);
 
             const storeEntry = await adStore.getValue(entry.id);
-            if (process.env.FORCE_ADD != "1" && storeEntry != null && storeEntry.price == entry.price) {
+            if (process.env.FORCE_ADD != "1" && storeEntry != null && storeEntry.price == entry.price && process.env.SAMPLE_KEY != entry.id) {
                 // log.info(`Skipping ${entry.id}`);
                 skipped++;
                 continue;
             }
 
-            context.enqueueRequest({
-                url: entry.url,
-                userData: {
-                    label: 'DETAIL',
-                    entry: entry
-                }
-            });
-            cnt++;
+            if (!('SAMPLE_KEY' in process.env) || process.env.SAMPLE_KEY == entry.id) {
+                context.enqueueRequest({
+                    url: entry.url,
+                    userData: {
+                        label: 'DETAIL',
+                        entry: entry
+                    }
+                });
+                cnt++;
+            }
         }
 
         log.info( `Parsed ${cnt} entries` );
         log.info( `Skipped ${skipped} entries` );
+    }
+
+    function parsePrice(priceText) {
+        if (priceText == null || priceText == "") {
+            priceText = "0";
+        }
+        isRon = false;
+        if (priceText.includes("RON")) {
+            isRon = true;
+        }
+
+        // format number
+        priceText = priceText.replace(/[A-Za-z\s]/g, '');
+        priceText = priceText.replace(/\./g, '');
+        priceText = priceText.replace(/,/g, '.');
+        let price = parseFloat(priceText);
+        if (isRon) {
+            price = Math.round(price/ronToEur);
+        }
+        if (typeof price !== "number" || isNaN(price)) {
+            return 0;
+        }
+
+        return price
     }
 
     return entries;

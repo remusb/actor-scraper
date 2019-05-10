@@ -9,8 +9,6 @@ async function pageFunction(context) {
     const configMap = await configStore.getValue('scrappers');
     const maxRetry = configMap.maxRetry;
     const ronToEur = configMap.ronToEur;
-    const minPrice = parseInt(configMap.minPrice);
-    const maxPrice = parseInt(configMap.maxPrice);
 
     if (request.userData.label === "DETAIL") {
         const entry = crawlPage(request.userData.entry);
@@ -73,7 +71,7 @@ async function pageFunction(context) {
             if (priceText.includes("RON")) {
                 price = Math.round(price/ronToEur);
             }
-            if (price < minPrice || price > maxPrice) {
+            if (price < configMap.minPriceHouse || price > configMap.maxPriceHouse) {
                 log.info(`Skipping because of price: ${price}`);
                 continue;
             }
@@ -89,14 +87,18 @@ async function pageFunction(context) {
                 title: $('h2.property-row-title', $el).text().trim().replace(/\n/g, ' ').replace(/\s\s+/g, ' '),
                 price: price,
                 fav: false,
-                executare: false,
                 notified: false,
-                house: $('div.property-row-meta-item:nth-child(2) strong', $el).text().trim(),
-                rooms: $('div.property-row-meta-item:nth-child(3) strong', $el).text().trim(),
-                baths: $('div.property-row-meta-item:nth-child(4) strong', $el).text().trim(),
-                size: $('ul.property-row-location li:nth-child(2)', $el).text().trim().replace('teren ', ''),
+                house: parseNumber($('div.property-row-meta-item:nth-child(2) strong', $el).text().trim()),
+                rooms: parseNumber($('div.property-row-meta-item:nth-child(3) strong', $el).text().trim()),
+                baths: parseNumber($('div.property-row-meta-item:nth-child(4) strong', $el).text().trim()),
+                size: parseNumber($('ul.property-row-location li:nth-child(2)', $el).text().trim().replace('teren ', '')),
                 url: domain + $('a.property-row-image', $el).attr('href')
             };
+
+            if (entry.rooms < configMap.minRooms) {
+                log.info(`Skipping because of rooms: ${entry.rooms}`);
+                continue;
+            }
 
             const storeEntry = await adStore.getValue(entry.id);
             if (process.env.FORCE_ADD != "1" && storeEntry != null && storeEntry.price == entry.price) {
@@ -118,6 +120,8 @@ async function pageFunction(context) {
         log.info( `Parsed ${cnt} entries` );
         log.info( `Skipped ${skipped} entries` );
     }
+
+    // COMMON
 
     return entries;
 }

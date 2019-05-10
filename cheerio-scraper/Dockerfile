@@ -1,5 +1,8 @@
 FROM apify/actor-node-basic
 
+RUN apk update && \
+    apk add bash
+
 # Copy source code
 COPY . ./
 
@@ -14,3 +17,5 @@ RUN npm --quiet set progress=false \
  && npm --version
 
  RUN mkdir -p /storage
+
+CMD ./start_actor.sh
