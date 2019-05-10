@@ -27,82 +27,62 @@ async function pageFunction(context) {
     function crawlPage(entry) {
         context.skipLinks();
         entry.sector = 0;
+        entry.size = 0;
 
-        const detaliiText = $('div.mb30 p').text().trim().replace(/\n/g, ' ').replace(/\s\s+/g, ' ');
+        const detaliiText = $('#description p[itemprop=description]').text().trim();
+
         let sectorInfo = detaliiText.match(/sector(ul)? (\d)/i);
         if (sectorInfo != null && sectorInfo.length > 2) {
             entry.sector = parseInt(sectorInfo[2]);
         }
-
         sectorInfo = entry.title.match(/sector(ul)? (\d)/i);
         if (sectorInfo != null && sectorInfo.length > 2) {
             entry.sector = parseInt(sectorInfo[2]);
         }
-
-        entry.location = $("div.property-list dt:contains('Locatie')").next().text().trim() + ', ' + $("div.property-list dt:contains('Zona')").next().text().trim();
-        sectorInfo = entry.location.match(/sector(ul)? (\d)/i);
-        if (sectorInfo != null && sectorInfo.length > 2) {
-            entry.sector = parseInt(sectorInfo[2]);
-        }
-
         entry.detail = detaliiText;
-        entry.year = parseNumber($("div.property-list dt:contains('An constructie')").next().text())
+        entry.size = parseNumber($("div.filter_margin span:contains('Suprafață teren')").next().text());
+        entry.house = parseNumber($("div span:contains('Suprafața utilă')").next().text());
+        entry.baths = parseNumber($("div.filter_margin span:contains('Număr Băi')").next().text());
+        entry.year = parseNumber($("div.filter_margin span:contains('An finalizare')").next().text());
+        entry.rooms = parseNumber($("div.filter_margin span:contains('Număr camere')").next().text());
 
         return entry;
     }
 
     async function crawlListing() {
-        const elems = $('.property-row').toArray();
+        const elems = $('#list_cart_holder a.item_cart[id]').toArray();
         let skipped = 0;
         let cnt = 0;
 
         for (let i = 0; i < elems.length; i++) {
-            const $el = elems[i];
-            let priceText = $('div.property-row-meta-item:first-child strong', $el).text().trim();
+            const $el = $(elems[i]);
+            let priceText = $('span.price', $el).text().trim();
 
             // format number
-            priceText = priceText.replace(/\s/g, '');
+            priceText = priceText.replace(/ /g, '');
             priceText = priceText.replace(/\./g, '');
             priceText = priceText.replace(/,/g, '.');
             if (priceText.includes("nespecificat")) {
                 continue;
             }
             let price = parseFloat(priceText);
-            if (priceText.includes("RON")) {
+            if (priceText.includes("ron")) {
                 price = Math.round(price/ronToEur);
             }
-            if (price < configMap.minPriceHouse || price > configMap.maxPriceHouse) {
-                log.info(`Skipping because of price: ${price}`);
-                continue;
-            }
+            const id = $el.attr('href').trim().replace(`${domain}/`, '');
 
-            const fullId = $('a.property-row-image', $el).attr('href');
-            const idSegments = fullId.match(/\/brizaland\/ro\/detalii\/([A-Za-z0-9\-\.]+)/i);
-            if (idSegments == null || idSegments.length < 2) {
-                log.error(`ID match issue: ${JSON.stringify(fullId)}`);
-                continue;
-            }
             const entry = {
-                id: idSegments[1],
-                title: $('h2.property-row-title', $el).text().trim().replace(/\n/g, ' ').replace(/\s\s+/g, ' '),
+                id: id,
+                url: $el.attr('href'),
+                title: $('span.title', $el).text().trim(),
                 price: price,
                 fav: false,
                 notified: false,
-                house: parseNumber($('div.property-row-meta-item:nth-child(2) strong', $el).text().trim()),
-                rooms: parseNumber($('div.property-row-meta-item:nth-child(3) strong', $el).text().trim()),
-                baths: parseNumber($('div.property-row-meta-item:nth-child(4) strong', $el).text().trim()),
-                size: parseNumber($('ul.property-row-location li:nth-child(2)', $el).text().trim().replace('teren ', '')),
-                url: domain + $('a.property-row-image', $el).attr('href')
+                location: $('span.area', $el).text().trim()
             };
-
-            if (entry.rooms < configMap.minRooms) {
-                log.info(`Skipping because of rooms: ${entry.rooms}`);
-                continue;
-            }
 
             const storeEntry = await adStore.getValue(entry.id);
             if (process.env.FORCE_ADD != "1" && storeEntry != null && storeEntry.price == entry.price) {
-                // log.info(`Skipping ${entry.id}`);
                 skipped++;
                 continue;
             }

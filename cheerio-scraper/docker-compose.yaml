@@ -90,6 +90,24 @@ services:
         volumes:
             - ./../storage:/storage
 
+    homezz-ro2:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        environment:
+            - APIFY_LOCAL_STORAGE_DIR=/storage
+            - APIFY_MEMORY_MBYTES=2048
+            - APIFY_HEADLESS=1
+            - APIFY_DEFAULT_DATASET_ID=homezz-ro2
+            - APIFY_DEFAULT_KEY_VALUE_STORE_ID=homezz-ro2
+            - APIFY_DEFAULT_REQUEST_QUEUE_ID=homezz-ro2
+            - START_URL=https://homezz.ro/anunturi_case-vile_de-vanzare_in-bucuresti-if_pret-pana-la-200000_ordonare-dupa-data-descrescator_fara-poze.html?ro=3,4,5&redt=170&tsf=200&ba=2,3
+            - PSEUDO_URL=https://homezz.ro/anunturi_case-vile_de-vanzare_in-bucuresti-if_pret-pana-la-200000-eur_ordonare-dupa-data-descrescator_fara-poze_[([\\d]+)].html?ro=3,4,5&redt=170&tsf=200&ba=2,3
+            - DOMAIN=https://homezz.ro
+            - SAMPLE=0
+        volumes:
+            - ./../storage:/storage
+
     publi24-ro:
         build:
             context: .
