@@ -11,14 +11,15 @@ async function pageFunction(context) {
 
     if (request.userData.label === "DETAIL") {
         const entry = crawlPage(request.userData.entry);
-        entries[entry.id] = entry;
+        if (entry != null) {
+            entries[entry.id] = entry;
 
-        if (process.env.SAMPLE == "1") {
-            console.log('SAMPLE:');
-            console.log(JSON.stringify(entry));
-        } else {
-            await adStore.setValue(entry.id, entry);
-            console.log(`Updated ${entry.id}`);
+            if (process.env.SAMPLE == "1") {
+                console.log(JSON.stringify(entry, null, 2));
+            } else {
+                await adStore.setValue(entry.id, entry);
+                console.log(`Updated ${entry.id}`);
+            }
         }
     } else {
         await crawlListing();
@@ -46,7 +47,9 @@ async function pageFunction(context) {
         }
 
         entry.detail = detaliiText;
-        entry.year = parseNumber($("div.property-list dt:contains('An constructie')").next().text())
+        entry.year = parseNumber($("div.property-list dt:contains('An constructie')").next().text());
+
+        entry = postProcess(entry);
 
         return entry;
     }
@@ -82,8 +85,9 @@ async function pageFunction(context) {
                 log.error(`ID match issue: ${JSON.stringify(fullId)}`);
                 continue;
             }
-            const entry = {
+            let entry = {
                 id: idSegments[1],
+                type: 'casa',
                 title: $('h2.property-row-title', $el).text().trim().replace(/\n/g, ' ').replace(/\s\s+/g, ' '),
                 price: price,
                 fav: false,
@@ -95,14 +99,18 @@ async function pageFunction(context) {
                 url: domain + $('a.property-row-image', $el).attr('href')
             };
 
-            if (entry.rooms < configMap.minRooms) {
+            if (entry.rooms > 0 && entry.rooms < configMap.minRooms) {
                 log.info(`Skipping because of rooms: ${entry.rooms}`);
                 continue;
             }
 
             const storeEntry = await adStore.getValue(entry.id);
             if (process.env.FORCE_ADD != "1" && storeEntry != null && storeEntry.price == entry.price) {
-                // log.info(`Skipping ${entry.id}`);
+                skipped++;
+                continue;
+            }
+            entry = preProcess(entry);
+            if (entry == null) {
                 skipped++;
                 continue;
             }

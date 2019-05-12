@@ -37,18 +37,17 @@ async function pageFunction(context) {
             const $el = elems[i];
             let priceText = $('div div.divXpret', $el).text();
             // format number
-            priceText = priceText.replace(/\./g, '');
-            priceText = priceText.replace(/,/g, '.');
             if (priceText.includes("nespecificat")) {
                 continue;
             }
-            let price = parseFloat(priceText);
+            let price = parseNumber(priceText);
             if (priceText.includes("RON")) {
                 price = Math.round(price/ronToEur);
             }
 
-            const entry = {
+            let entry = {
                 id: $($el).attr('href'),
+                type: 'teren',
                 title: $('div div.divXanuntT', $el).text(),
                 price: price,
                 detail: $('div p:first-child', $el).text(),
@@ -66,30 +65,38 @@ async function pageFunction(context) {
             if (sectorInfo != null && sectorInfo.length > 2) {
                 entry.sector = parseInt(sectorInfo[2]);
             }
-
-            const storeEntry = await adStore.getValue(entry.id);
-            if (process.env.FORCE_ADD != "1" && storeEntry != null && storeEntry.price == entry.price) {
-                // log.info(`Skipping ${entry.id}`);
+            entry = preProcess(entry);
+            if (entry == null) {
                 skipped++;
                 continue;
             }
 
-            if (process.env.SAMPLE == "1") {
-                console.log('SAMPLE:');
-                console.log(JSON.stringify(entry));
-                return;
-            } else {
-                await adStore.setValue(entry.id, entry);
+            const storeEntry = await adStore.getValue(entry.id);
+            if (process.env.FORCE_ADD != "1" && storeEntry != null && storeEntry.price == entry.price) {
+                skipped++;
+                continue;
             }
+            entry = postProcess(entry);
 
-            entries[entry.id] = entry;
-            cnt++;
+            if (entry != null) {
+                if (process.env.SAMPLE == "1") {
+                    console.log(JSON.stringify(entry, null, 2));
+                    return;
+                } else {
+                    await adStore.setValue(entry.id, entry);
+                }
+
+                entries[entry.id] = entry;
+                cnt++;
+            }
         }
 
         log.info( `Parsed ${cnt} entries` );
         log.info( `Skipped ${skipped} entries` );
         return entries;
     }
+
+    // COMMON
 
     return entries;
 }

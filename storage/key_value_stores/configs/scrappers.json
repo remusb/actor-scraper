@@ -6,5 +6,6 @@
     "mpPrice": 350,
     "maxPriceHouse": 200000,
     "minPriceHouse": 50000,
+    "mpPriceHouse": 1350,
     "minRooms": 3
 }

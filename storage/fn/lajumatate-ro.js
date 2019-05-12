@@ -7,6 +7,7 @@ async function pageFunction(context) {
     const adStore = await context.Apify.openKeyValueStore('terenuri' );
     const configStore = await context.Apify.openKeyValueStore('configs' );
     const configMap = await configStore.getValue('scrappers');
+    const ronToEur = configMap.ronToEur;
 
     if (request.userData.label === "DETAIL") {
         const entry = crawlPage(request.userData.entry);
@@ -28,27 +29,26 @@ async function pageFunction(context) {
         context.skipLinks();
         entry.sector = 0;
         entry.size = 0;
-        entry.title = $('div.titlu h1').text().trim();
+        entry.location = $("#extra-fields div span:contains('Zona')").next().text().trim();
 
-        $('div.header_info div div:first-child span.hidden-print').remove();
-        const locationText = $('div.header_info div div:first-child').text().trim();
-        const detaliiText = $('#b_detalii_text p').text().trim();
-
+        const detaliiText = $('#description p[itemprop=description]').text().trim();
         let sectorInfo = detaliiText.match(/sector(ul)? (\d)/i);
         if (sectorInfo != null && sectorInfo.length > 2) {
             entry.sector = parseInt(sectorInfo[2]);
         }
+
         sectorInfo = entry.title.match(/sector(ul)? (\d)/i);
         if (sectorInfo != null && sectorInfo.length > 2) {
             entry.sector = parseInt(sectorInfo[2]);
         }
-        sectorInfo = locationText.match(/sector(ul)? (\d)/i);
+
+        sectorInfo = entry.location.match(/sector(ul)? (\d)/i);
         if (sectorInfo != null && sectorInfo.length > 2) {
             entry.sector = parseInt(sectorInfo[2]);
         }
-        entry.location = locationText;
+
         entry.detail = detaliiText;
-        entry.size = $("ul.lista-tabelara li:contains('Suprafaţă') span").text().trim();
+        entry.size = parseNumber($("#extra-fields div span:contains('Suprafață')").next().text().trim());
 
         entry = postProcess(entry);
 
@@ -56,33 +56,31 @@ async function pageFunction(context) {
     }
 
     async function crawlListing() {
-        const elems = $('div.box-anunt[id]').toArray();
+        const elems = $('#list_cart_holder a.item_cart.main_items').toArray();
         let skipped = 0;
         let cnt = 0;
 
         for (let i = 0; i < elems.length; i++) {
             const $el = $(elems[i]);
-            let priceText = $('div.pret span.pret-mare', $el).text().trim();
-            if (priceText == null || priceText == "") {
-                priceText = "0";
-            }
+            let priceText = $('span.price', $el).text().trim();
 
             // format number
-            priceText = priceText.replace(/ /g, '');
-            priceText = priceText.replace(/\./g, '');
-            priceText = priceText.replace(/,/g, '.');
-            let price = parseFloat(priceText);
+            let price = parseNumber(priceText);
+            if (priceText.includes("ron")) {
+                price = Math.round(price/ronToEur);
+            }
+            const id = process.env.APIFY_DEFAULT_KEY_VALUE_STORE_ID + '-' + $el.attr('href').trim().replace(`${domain}/`, '');
 
             let entry = {
-                id: $el.attr('id'),
+                id: id,
                 type: 'teren',
-                title: '',
+                url: $el.attr('href'),
+                title: $('span.title', $el).text().trim(),
                 price: price,
                 fav: false,
-                executare: $('.box-tip-licitatie', $el).length > 0,
-                notified: false
+                notified: false,
+                executare: false
             };
-            entry.url = $('a[itemprop=name]', $el).attr('href');
 
             const storeEntry = await adStore.getValue(entry.id);
             if (process.env.FORCE_ADD != "1" && storeEntry != null && storeEntry.price == entry.price) {

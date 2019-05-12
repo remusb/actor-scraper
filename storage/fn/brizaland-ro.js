@@ -14,14 +14,15 @@ async function pageFunction(context) {
 
     if (request.userData.label === "DETAIL") {
         const entry = crawlPage(request.userData.entry);
-        entries[entry.id] = entry;
+        if (entry != null) {
+            entries[entry.id] = entry;
 
-        if (process.env.SAMPLE == "1") {
-            console.log('SAMPLE:');
-            console.log(JSON.stringify(entry));
-        } else {
-            await adStore.setValue(entry.id, entry);
-            console.log(`Updated ${entry.id}`);
+            if (process.env.SAMPLE == "1") {
+                console.log(JSON.stringify(entry, null, 2));
+            } else {
+                await adStore.setValue(entry.id, entry);
+                console.log(`Updated ${entry.id}`);
+            }
         }
     } else {
         await crawlListing();
@@ -51,6 +52,8 @@ async function pageFunction(context) {
         entry.detail = detaliiText;
         entry.size = $('div.col-sm-6:nth-child(2) .module-content span').text().trim();
 
+        entry = postProcess(entry);
+
         return entry;
     }
 
@@ -63,20 +66,9 @@ async function pageFunction(context) {
             const $el = elems[i];
             let priceText = $('div.property-row-meta-item:first-child strong', $el).text().trim();
 
-            // format number
-            priceText = priceText.replace(/\s/g, '');
-            priceText = priceText.replace(/\./g, '');
-            priceText = priceText.replace(/,/g, '.');
-            if (priceText.includes("nespecificat")) {
-                continue;
-            }
-            let price = parseFloat(priceText);
+            let price = parseNumber(priceText);
             if (priceText.includes("RON")) {
                 price = Math.round(price/ronToEur);
-            }
-            if (price < minPrice || price > maxPrice) {
-                log.info(`Skipping because of price: ${price}`);
-                continue;
             }
 
             const fullId = $('a.property-row-image', $el).attr('href');
@@ -85,8 +77,9 @@ async function pageFunction(context) {
                 log.error(`ID match issue: ${JSON.stringify(fullId)}`);
                 continue;
             }
-            const entry = {
+            let entry = {
                 id: idSegments[1],
+                type: 'teren',
                 title: $('h2.property-row-title', $el).text().trim().replace(/\n/g, ' ').replace(/\s\s+/g, ' '),
                 price: price,
                 fav: false,
@@ -97,7 +90,12 @@ async function pageFunction(context) {
 
             const storeEntry = await adStore.getValue(entry.id);
             if (process.env.FORCE_ADD != "1" && storeEntry != null && storeEntry.price == entry.price) {
-                // log.info(`Skipping ${entry.id}`);
+                skipped++;
+                continue;
+            }
+
+            entry = preProcess(entry);
+            if (entry == null) {
                 skipped++;
                 continue;
             }
@@ -115,6 +113,8 @@ async function pageFunction(context) {
         log.info( `Parsed ${cnt} entries` );
         log.info( `Skipped ${skipped} entries` );
     }
+
+    // COMMON
 
     return entries;
 }

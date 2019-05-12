@@ -5,17 +5,20 @@ async function pageFunction(context) {
     let entries = {};
     const domain = context.customData.DOMAIN;
     const adStore = await context.Apify.openKeyValueStore('terenuri' );
+    const configStore = await context.Apify.openKeyValueStore('configs' );
+    const configMap = await configStore.getValue('scrappers');
 
     if (request.userData.label === "DETAIL") {
         const entry = crawlPage(request.userData.entry);
-        entries[entry.id] = entry;
+        if (entry != null) {
+            entries[entry.id] = entry;
 
-        if (process.env.SAMPLE == "1") {
-            console.log('SAMPLE:');
-            console.log(JSON.stringify(entry));
-        } else {
-            await adStore.setValue(entry.id, entry);
-            console.log(`Updated ${entry.id}`);
+            if (process.env.SAMPLE == "1") {
+                console.log(JSON.stringify(entry, null, 2));
+            } else {
+                await adStore.setValue(entry.id, entry);
+                console.log(`Updated ${entry.id}`);
+            }
         }
     } else {
         await crawlListing();
@@ -48,6 +51,8 @@ async function pageFunction(context) {
         entry.detail = detaliiText;
         entry.size = 0;
 
+        entry = postProcess(entry);
+
         return entry;
     }
 
@@ -73,8 +78,9 @@ async function pageFunction(context) {
             }
 
             const id = $('a[itemprop=url] span.favorites', $el).attr('data-id');
-            const entry = {
+            let entry = {
                 id: id,
+                type: 'teren',
                 title: $('a[itemprop=name]', $el).text().trim(),
                 price: price,
                 fav: false,
@@ -85,7 +91,11 @@ async function pageFunction(context) {
 
             const storeEntry = await adStore.getValue(entry.id);
             if (process.env.FORCE_ADD != "1" && storeEntry != null && storeEntry.price == entry.price) {
-                // log.info(`Skipping ${entry.id}`);
+                skipped++;
+                continue;
+            }
+            entry = preProcess(entry);
+            if (entry == null) {
                 skipped++;
                 continue;
             }
@@ -103,6 +113,8 @@ async function pageFunction(context) {
         log.info( `Parsed ${cnt} entries` );
         log.info( `Skipped ${skipped} entries` );
     }
+
+    // COMMON
 
     return entries;
 }

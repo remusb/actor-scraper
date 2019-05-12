@@ -4,7 +4,7 @@ async function pageFunction(context) {
     log.info(`URL: ${request.url} TITLE: ${title}`);
     let entries = {};
     const domain = context.customData.DOMAIN;
-    const adStore = await context.Apify.openKeyValueStore('terenuri' );
+    const adStore = await context.Apify.openKeyValueStore('case' );
     const configStore = await context.Apify.openKeyValueStore('configs' );
     const configMap = await configStore.getValue('scrappers');
 
@@ -27,28 +27,33 @@ async function pageFunction(context) {
     function crawlPage(entry) {
         context.skipLinks();
         entry.sector = 0;
-        entry.size = 0;
-        entry.title = $('div.titlu h1').text().trim();
 
-        $('div.header_info div div:first-child span.hidden-print').remove();
-        const locationText = $('div.header_info div div:first-child').text().trim();
-        const detaliiText = $('#b_detalii_text p').text().trim();
-
+        const detaliiText = $('span[itemprop=description]').text().trim().replace(/\n/g, ' ').replace(/\s\s+/g, ' ');
         let sectorInfo = detaliiText.match(/sector(ul)? (\d)/i);
         if (sectorInfo != null && sectorInfo.length > 2) {
             entry.sector = parseInt(sectorInfo[2]);
         }
+
         sectorInfo = entry.title.match(/sector(ul)? (\d)/i);
         if (sectorInfo != null && sectorInfo.length > 2) {
             entry.sector = parseInt(sectorInfo[2]);
         }
+
+        $("div[itemtype='https://schema.org/Place'] span.fa-map-marker").remove();
+        $("div[itemtype='https://schema.org/Place'] #showMap").remove();
+        const locationText = $("div[itemtype='https://schema.org/Place']").text().trim().replace(/\n/g, ' ').replace(/\s\s+/g, ' ');
         sectorInfo = locationText.match(/sector(ul)? (\d)/i);
         if (sectorInfo != null && sectorInfo.length > 2) {
             entry.sector = parseInt(sectorInfo[2]);
         }
+
         entry.location = locationText;
         entry.detail = detaliiText;
-        entry.size = $("ul.lista-tabelara li:contains('Suprafaţă') span").text().trim();
+        entry.size = parseNumber($("div.adproperties span:contains('Suprafata terenului')").next().text());
+        entry.house = parseNumber($("div.adproperties span:contains('Suprafata utila')").next().text());
+        entry.rooms = parseNumber($("div.adproperties span:contains('Numar camere')").next().text());
+        entry.baths = parseNumber($("div.adproperties span:contains('Numar bai')").next().text());
+        entry.year = parseNumber($("div.adproperties span:contains('Anul constructiei')").next().text());
 
         entry = postProcess(entry);
 
@@ -56,33 +61,28 @@ async function pageFunction(context) {
     }
 
     async function crawlListing() {
-        const elems = $('div.box-anunt[id]').toArray();
+        const elems = $('ul.listing li[itemscope]').toArray();
         let skipped = 0;
         let cnt = 0;
 
         for (let i = 0; i < elems.length; i++) {
-            const $el = $(elems[i]);
-            let priceText = $('div.pret span.pret-mare', $el).text().trim();
-            if (priceText == null || priceText == "") {
-                priceText = "0";
-            }
+            const $el = elems[i];
+            let priceText = $('strong.price', $el).text().trim();
 
             // format number
-            priceText = priceText.replace(/ /g, '');
-            priceText = priceText.replace(/\./g, '');
-            priceText = priceText.replace(/,/g, '.');
-            let price = parseFloat(priceText);
+            let price = parseNumber(priceText);
 
+            const id = $('a[itemprop=url] span.favorites', $el).attr('data-id');
             let entry = {
-                id: $el.attr('id'),
-                type: 'teren',
-                title: '',
+                id: id,
+                type: 'casa',
+                title: $('a[itemprop=name]', $el).text().trim(),
                 price: price,
                 fav: false,
-                executare: $('.box-tip-licitatie', $el).length > 0,
-                notified: false
+                executare: false,
+                notified: false,
+                url: $('a[itemprop=url]', $el).attr('href')
             };
-            entry.url = $('a[itemprop=name]', $el).attr('href');
 
             const storeEntry = await adStore.getValue(entry.id);
             if (process.env.FORCE_ADD != "1" && storeEntry != null && storeEntry.price == entry.price) {

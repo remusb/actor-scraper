@@ -126,6 +126,24 @@ services:
         volumes:
             - ./../storage:/storage
 
+    publi24-ro2:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        environment:
+            - APIFY_LOCAL_STORAGE_DIR=/storage
+            - APIFY_MEMORY_MBYTES=2048
+            - APIFY_HEADLESS=1
+            - APIFY_DEFAULT_DATASET_ID=publi24-ro2
+            - APIFY_DEFAULT_KEY_VALUE_STORE_ID=publi24-ro2
+            - APIFY_DEFAULT_REQUEST_QUEUE_ID=publi24-ro2
+            - START_URL=https://www.publi24.ro/anunturi/imobiliare/de-vanzare/case/bucuresti/?minprice=50000&maxprice=200000
+            - PSEUDO_URL=https://www.publi24.ro/anunturi/imobiliare/de-vanzare/case/bucuresti/?minprice=50000&maxprice=200000&pag=[([\\d]+)]
+            - DOMAIN=https://www.publi24.ro
+            - SAMPLE=0
+        volumes:
+            - ./../storage:/storage
+
     imo-nord-ro:
         build:
             context: .
@@ -143,6 +161,24 @@ services:
             - SAMPLE=0
         volumes:
             - ./../storage:/storage
+
+    # imo-nord-ro2:
+    #     build:
+    #         context: .
+    #         dockerfile: Dockerfile
+    #     environment:
+    #         - APIFY_LOCAL_STORAGE_DIR=/storage
+    #         - APIFY_MEMORY_MBYTES=2048
+    #         - APIFY_HEADLESS=1
+    #         - APIFY_DEFAULT_DATASET_ID=imo-nord-ro2
+    #         - APIFY_DEFAULT_KEY_VALUE_STORE_ID=imo-nord-ro2
+    #         - APIFY_DEFAULT_REQUEST_QUEUE_ID=imo-nord-ro2
+    #         - START_URL=https://www.imo-nord.ro/oferte-imobiliare/sale/house/
+    #         - PSEUDO_URL=https://www.imo-nord.ro/oferte-imobiliare/sale/house/?=&count=12&keyw=&n=[([\\d]+)]
+    #         - DOMAIN=https://www.imo-nord.ro
+    #         - SAMPLE=0
+    #     volumes:
+    #         - ./../storage:/storage
 
     brizaland-ro:
         build:
@@ -194,6 +230,24 @@ services:
             - START_URL=http://www.brizaland.ro/brizaland/ro/lista/vanzari-case-vile/--0-0-data-desc/1/-/
             - PSEUDO_URL=http://www.brizaland.ro/brizaland/ro/lista/vanzari-case-vile/--0-0-data-desc/[([\\d]+)]/-/
             - DOMAIN=http://www.brizaland.ro
+            - SAMPLE=0
+        volumes:
+            - ./../storage:/storage
+
+    lajumatate-ro:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        environment:
+            - APIFY_LOCAL_STORAGE_DIR=/storage
+            - APIFY_MEMORY_MBYTES=2048
+            - APIFY_HEADLESS=1
+            - APIFY_DEFAULT_DATASET_ID=lajumatate-ro
+            - APIFY_DEFAULT_KEY_VALUE_STORE_ID=lajumatate-ro
+            - APIFY_DEFAULT_REQUEST_QUEUE_ID=lajumatate-ro
+            - START_URL=https://lajumate.ro/anunturi_terenuri_in-bucuresti-if_pret-pana-la-100000.html?tt=1&tsf=200&tst=500&tt2=1
+            - PSEUDO_URL=https://lajumate.ro/anunturi_terenuri_in-bucuresti-if_pret-pana-la-100000-eur_[([\\d]+)].html?tt=1&tsf=200&tst=500&tt2=1
+            - DOMAIN=https://lajumate.ro
             - SAMPLE=0
         volumes:
             - ./../storage:/storage

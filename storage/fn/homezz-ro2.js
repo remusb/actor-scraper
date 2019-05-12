@@ -11,14 +11,15 @@ async function pageFunction(context) {
 
     if (request.userData.label === "DETAIL") {
         const entry = crawlPage(request.userData.entry);
-        entries[entry.id] = entry;
+        if (entry != null) {
+            entries[entry.id] = entry;
 
-        if (process.env.SAMPLE == "1") {
-            console.log('SAMPLE:');
-            console.log(JSON.stringify(entry));
-        } else {
-            await adStore.setValue(entry.id, entry);
-            console.log(`Updated ${entry.id}`);
+            if (process.env.SAMPLE == "1") {
+                console.log(JSON.stringify(entry, null, 2));
+            } else {
+                await adStore.setValue(entry.id, entry);
+                console.log(`Updated ${entry.id}`);
+            }
         }
     } else {
         await crawlListing();
@@ -46,6 +47,8 @@ async function pageFunction(context) {
         entry.year = parseNumber($("div.filter_margin span:contains('An finalizare')").next().text());
         entry.rooms = parseNumber($("div.filter_margin span:contains('Număr camere')").next().text());
 
+        entry = postProcess(entry);
+
         return entry;
     }
 
@@ -71,8 +74,9 @@ async function pageFunction(context) {
             }
             const id = $el.attr('href').trim().replace(`${domain}/`, '');
 
-            const entry = {
+            let entry = {
                 id: id,
+                type: 'casa',
                 url: $el.attr('href'),
                 title: $('span.title', $el).text().trim(),
                 price: price,
@@ -83,6 +87,11 @@ async function pageFunction(context) {
 
             const storeEntry = await adStore.getValue(entry.id);
             if (process.env.FORCE_ADD != "1" && storeEntry != null && storeEntry.price == entry.price) {
+                skipped++;
+                continue;
+            }
+            entry = preProcess(entry);
+            if (entry == null) {
                 skipped++;
                 continue;
             }

@@ -22,6 +22,8 @@ fi
 for file in ../storage/fn/*.js; do
     baseFile=$(basename -- ${file})
     key="${baseFile%%.*}"
+    if [[ "$key" == "_"* ]]; then continue; fi
+
     echo "Running ${key}"
 
     /usr/local/bin/docker-compose run --rm -e "FORCE_ADD=${FORCE_ADD}" -e "SAMPLE=${USE_SAMPLE}" ${key}
@@ -32,6 +34,10 @@ cd "$DIR/../../actor-notify-email"
 /usr/local/bin/docker-compose run --rm -e "NOTIFY_TYPE=terenuri" -e "GMAIL_USER=$GMAIL_USER" -e "GMAIL_PASSWORD=$GMAIL_PASSWORD" -e "INCLUDE_NOTIFIED=$FORCE_NOTIFY" -e "CONTAINS=Bucurestii|Jiului|Damaroaia|Bazilescu" actor-notify-email
 /usr/local/bin/docker-compose run --rm -e "NOTIFY_TYPE=terenuri" -e "GMAIL_USER=$GMAIL_USER" -e "GMAIL_PASSWORD=$GMAIL_PASSWORD" -e "INCLUDE_NOTIFIED=$FORCE_NOTIFY" -e "SECTOR=1" actor-notify-email
 /usr/local/bin/docker-compose run --rm -e "NOTIFY_TYPE=terenuri" -e "GMAIL_USER=$GMAIL_USER" -e "GMAIL_PASSWORD=$GMAIL_PASSWORD" -e "INCLUDE_NOTIFIED=$FORCE_NOTIFY" actor-notify-email
+
+/usr/local/bin/docker-compose run --rm -e "SALE_TYPE=executare" -e "NOTIFY_TYPE=terenuri" -e "GMAIL_USER=$GMAIL_USER" -e "GMAIL_PASSWORD=$GMAIL_PASSWORD" -e "INCLUDE_NOTIFIED=$FORCE_NOTIFY" -e "CONTAINS=Bucurestii|Jiului|Damaroaia|Bazilescu" actor-notify-email
+/usr/local/bin/docker-compose run --rm -e "SALE_TYPE=executare" -e "NOTIFY_TYPE=terenuri" -e "GMAIL_USER=$GMAIL_USER" -e "GMAIL_PASSWORD=$GMAIL_PASSWORD" -e "INCLUDE_NOTIFIED=$FORCE_NOTIFY" -e "SECTOR=1" actor-notify-email
+/usr/local/bin/docker-compose run --rm -e "SALE_TYPE=executare" -e "NOTIFY_TYPE=terenuri" -e "GMAIL_USER=$GMAIL_USER" -e "GMAIL_PASSWORD=$GMAIL_PASSWORD" -e "INCLUDE_NOTIFIED=$FORCE_NOTIFY" actor-notify-email
 
 /usr/local/bin/docker-compose run --rm -e "NOTIFY_TYPE=case" -e "GMAIL_USER=$GMAIL_USER" -e "GMAIL_PASSWORD=$GMAIL_PASSWORD" -e "INCLUDE_NOTIFIED=$FORCE_NOTIFY" -e "CONTAINS=Bucurestii|Jiului|Damaroaia|Bazilescu" actor-notify-email
 /usr/local/bin/docker-compose run --rm -e "NOTIFY_TYPE=case" -e "GMAIL_USER=$GMAIL_USER" -e "GMAIL_PASSWORD=$GMAIL_PASSWORD" -e "INCLUDE_NOTIFIED=$FORCE_NOTIFY" -e "SECTOR=1" actor-notify-email

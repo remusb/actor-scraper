@@ -20,8 +20,7 @@ async function pageFunction(context) {
             entries[entry.id] = entry;
 
             if (process.env.SAMPLE == "1" || process.env.SAMPLE_KEY == entry.id) {
-                console.log('SAMPLE:');
-                console.log(JSON.stringify(entry));
+                console.log(JSON.stringify(entry, null, 2));
             } else {
                 await adStore.setValue(entry.id, entry);
                 console.log(`Updated ${entry.id}`);
@@ -62,6 +61,7 @@ async function pageFunction(context) {
         if (sizeInfo != null && sizeInfo.length > 1) {
             entry.size = parseFloat(sizeInfo[1]);
         }
+
         if (entry.price === 0) {
             const price = parsePrice($('span.price_area').text().trim());
             if ((price < minPrice || price > maxPrice) && price > mpPrice) {
@@ -80,6 +80,8 @@ async function pageFunction(context) {
             log.info(`Skipping ${entry.id} because of price: ${entry.price}`);
             return null;
         }
+
+        entry = postProcess(entry);
 
         return entry;
     }
@@ -103,8 +105,9 @@ async function pageFunction(context) {
                 log.error(`ID match issue: ${JSON.stringify(fullId)}`);
                 continue;
             }
-            const entry = {
+            let entry = {
                 id: idSegments[1],
+                type: 'teren',
                 title: $('div.info_container_unit_3 h4 a', $el).text().trim(),
                 price: price,
                 fav: false,
@@ -116,7 +119,11 @@ async function pageFunction(context) {
 
             const storeEntry = await adStore.getValue(entry.id);
             if (process.env.FORCE_ADD != "1" && storeEntry != null && storeEntry.price == entry.price && process.env.SAMPLE_KEY != entry.id) {
-                // log.info(`Skipping ${entry.id}`);
+                skipped++;
+                continue;
+            }
+            entry = preProcess(entry);
+            if (entry == null) {
                 skipped++;
                 continue;
             }
@@ -160,6 +167,8 @@ async function pageFunction(context) {
 
         return price
     }
+
+    // COMMON
 
     return entries;
 }
