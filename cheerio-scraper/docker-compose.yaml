@@ -162,23 +162,23 @@ services:
         volumes:
             - ./../storage:/storage
 
-    # imo-nord-ro2:
-    #     build:
-    #         context: .
-    #         dockerfile: Dockerfile
-    #     environment:
-    #         - APIFY_LOCAL_STORAGE_DIR=/storage
-    #         - APIFY_MEMORY_MBYTES=2048
-    #         - APIFY_HEADLESS=1
-    #         - APIFY_DEFAULT_DATASET_ID=imo-nord-ro2
-    #         - APIFY_DEFAULT_KEY_VALUE_STORE_ID=imo-nord-ro2
-    #         - APIFY_DEFAULT_REQUEST_QUEUE_ID=imo-nord-ro2
-    #         - START_URL=https://www.imo-nord.ro/oferte-imobiliare/sale/house/
-    #         - PSEUDO_URL=https://www.imo-nord.ro/oferte-imobiliare/sale/house/?=&count=12&keyw=&n=[([\\d]+)]
-    #         - DOMAIN=https://www.imo-nord.ro
-    #         - SAMPLE=0
-    #     volumes:
-    #         - ./../storage:/storage
+    imo-nord-ro2:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        environment:
+            - APIFY_LOCAL_STORAGE_DIR=/storage
+            - APIFY_MEMORY_MBYTES=2048
+            - APIFY_HEADLESS=1
+            - APIFY_DEFAULT_DATASET_ID=imo-nord-ro2
+            - APIFY_DEFAULT_KEY_VALUE_STORE_ID=imo-nord-ro2
+            - APIFY_DEFAULT_REQUEST_QUEUE_ID=imo-nord-ro2
+            - START_URL=https://www.imo-nord.ro/oferte-imobiliare/sale/house/
+            - PSEUDO_URL=https://www.imo-nord.ro/oferte-imobiliare/sale/house/?=&count=12&keyw=&n=[([\\d]+)]
+            - DOMAIN=https://www.imo-nord.ro
+            - SAMPLE=0
+        volumes:
+            - ./../storage:/storage
 
     brizaland-ro:
         build:

@@ -1,3 +1,11 @@
+function parseText($strObj) {
+    if (typeof $strObj === "string") {
+        return $strObj.trim().replace(/\n/g, ' ').replace(/\s\s+/g, ' ');
+    }
+
+    return $strObj.text().trim().replace(/\n/g, ' ').replace(/\s\s+/g, ' ');
+}
+
 function parseNumber($numberObj) {
     let numberText = '';
 
@@ -6,12 +14,8 @@ function parseNumber($numberObj) {
     } else if (typeof $numberObj === "string") {
         numberText = $numberObj;
     } else {
-        numberText = $numberObj
-            .clone()    //clone the element
-            .children() //select all the children
-            .remove()   //remove all the children
-            .end()  //again go back to selected element
-            .text();
+        $('sup,sub', $numberObj).remove();
+        numberText = $numberObj.text();
     }
 
     if (numberText == null || numberText == "") {
