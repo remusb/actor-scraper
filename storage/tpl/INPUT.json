@@ -21,6 +21,7 @@
   "maxCrawlingDepth": 1,
   "pageFunctionTimeoutSecs": 300,
   "customData": {
-    "DOMAIN": "%DOMAIN"
+    "DOMAIN": "%DOMAIN",
+    "maxPagesPerCrawl": 3
   }
 }

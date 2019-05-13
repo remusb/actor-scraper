@@ -41,11 +41,11 @@ async function pageFunction(context) {
             entry.sector = parseInt(sectorInfo[2]);
         }
         entry.detail = detaliiText;
-        entry.size = parseNumber($("div.filter_margin span:contains('Suprafață teren')").next().text());
-        entry.house = parseNumber($("div span:contains('Suprafața utilă')").next().text());
-        entry.baths = parseNumber($("div.filter_margin span:contains('Număr Băi')").next().text());
-        entry.year = parseNumber($("div.filter_margin span:contains('An finalizare')").next().text());
-        entry.rooms = parseNumber($("div.filter_margin span:contains('Număr camere')").next().text());
+        entry.size = parseNumber($("div.filter_margin span:contains('Suprafață teren')").next());
+        entry.house = parseNumber($("div span:contains('Suprafața utilă')").next());
+        entry.baths = parseNumber($("div.filter_margin span:contains('Număr Băi')").next());
+        entry.year = parseNumber($("div.filter_margin span:contains('An finalizare')").next());
+        entry.rooms = parseNumber($("div.filter_margin span:contains('Număr camere')").next());
 
         entry = postProcess(entry);
 

@@ -49,11 +49,11 @@ async function pageFunction(context) {
 
         entry.location = locationText;
         entry.detail = detaliiText;
-        entry.size = parseNumber($("div.adproperties span:contains('Suprafata terenului')").next().text());
-        entry.house = parseNumber($("div.adproperties span:contains('Suprafata utila')").next().text());
-        entry.rooms = parseNumber($("div.adproperties span:contains('Numar camere')").next().text());
-        entry.baths = parseNumber($("div.adproperties span:contains('Numar bai')").next().text());
-        entry.year = parseNumber($("div.adproperties span:contains('Anul constructiei')").next().text());
+        entry.size = parseNumber($("div.adproperties span:contains('Suprafata terenului')").next());
+        entry.house = parseNumber($("div.adproperties span:contains('Suprafata utila')").next());
+        entry.rooms = parseNumber($("div.adproperties span:contains('Numar camere')").next());
+        entry.baths = parseNumber($("div.adproperties span:contains('Numar bai')").next());
+        entry.year = parseNumber($("div.adproperties span:contains('Anul constructiei')").next());
 
         entry = postProcess(entry);
 
@@ -67,10 +67,8 @@ async function pageFunction(context) {
 
         for (let i = 0; i < elems.length; i++) {
             const $el = elems[i];
-            let priceText = $('strong.price', $el).text().trim();
-
             // format number
-            let price = parseNumber(priceText);
+            let price = parseNumber($('strong.price', $el));
 
             const id = $('a[itemprop=url] span.favorites', $el).attr('data-id');
             let entry = {

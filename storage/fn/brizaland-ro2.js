@@ -47,7 +47,7 @@ async function pageFunction(context) {
         }
 
         entry.detail = detaliiText;
-        entry.year = parseNumber($("div.property-list dt:contains('An constructie')").next().text());
+        entry.year = parseNumber($("div.property-list dt:contains('An constructie')").next());
 
         entry = postProcess(entry);
 
@@ -92,10 +92,10 @@ async function pageFunction(context) {
                 price: price,
                 fav: false,
                 notified: false,
-                house: parseNumber($('div.property-row-meta-item:nth-child(2) strong', $el).text().trim()),
-                rooms: parseNumber($('div.property-row-meta-item:nth-child(3) strong', $el).text().trim()),
-                baths: parseNumber($('div.property-row-meta-item:nth-child(4) strong', $el).text().trim()),
-                size: parseNumber($('ul.property-row-location li:nth-child(2)', $el).text().trim().replace('teren ', '')),
+                house: parseNumber($('div.property-row-meta-item:nth-child(2) strong', $el)),
+                rooms: parseNumber($('div.property-row-meta-item:nth-child(3) strong', $el)),
+                baths: parseNumber($('div.property-row-meta-item:nth-child(4) strong', $el)),
+                size: parseNumber($('ul.property-row-location li:nth-child(2)', $el)),
                 url: domain + $('a.property-row-image', $el).attr('href')
             };
 

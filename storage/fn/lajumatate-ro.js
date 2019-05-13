@@ -48,7 +48,7 @@ async function pageFunction(context) {
         }
 
         entry.detail = detaliiText;
-        entry.size = parseNumber($("#extra-fields div span:contains('Suprafață')").next().text().trim());
+        entry.size = parseNumber($("#extra-fields div span:contains('Suprafață')").next());
 
         entry = postProcess(entry);
 
@@ -63,9 +63,7 @@ async function pageFunction(context) {
         for (let i = 0; i < elems.length; i++) {
             const $el = $(elems[i]);
             let priceText = $('span.price', $el).text().trim();
-
-            // format number
-            let price = parseNumber(priceText);
+            let price = parseNumber($('span.price', $el));
             if (priceText.includes("ron")) {
                 price = Math.round(price/ronToEur);
             }

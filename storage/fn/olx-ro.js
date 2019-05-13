@@ -63,8 +63,7 @@ async function pageFunction(context) {
 
         for (let i = 0; i < elems.length; i++) {
             const $el = elems[i];
-            let priceText = $('p.price', $el).text().trim();
-            let price = parseNumber(priceText);
+            let price = parseNumber($('p.price', $el));
 
             const fullId = $('a.thumb', $el).attr('href');
             const idSegments = fullId.match(/https:\/\/www\.olx\.ro\/oferta\/([A-Za-z0-9\-\.]+)#.*/i);

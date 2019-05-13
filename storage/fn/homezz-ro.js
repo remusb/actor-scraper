@@ -62,7 +62,7 @@ async function pageFunction(context) {
             if (priceText.includes("nespecificat")) {
                 continue;
             }
-            let price = parseNumber(priceText);
+            let price = parseNumber($('span.price', $el));
             if (priceText.includes("ron")) {
                 price = Math.round(price/ronToEur);
             }

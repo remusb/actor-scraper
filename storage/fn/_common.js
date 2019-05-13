@@ -1,14 +1,25 @@
-function parseNumber(numberText) {
-    if (typeof numberText === "number") {
-        return numberText;
+function parseNumber($numberObj) {
+    let numberText = '';
+
+    if (typeof $numberObj === "number") {
+        return $numberObj;
+    } else if (typeof $numberObj === "string") {
+        numberText = $numberObj;
+    } else {
+        numberText = $numberObj
+            .clone()    //clone the element
+            .children() //select all the children
+            .remove()   //remove all the children
+            .end()  //again go back to selected element
+            .text();
     }
+
     if (numberText == null || numberText == "") {
         numberText = "0";
     }
 
     // format number
-    numberText = numberText.replace(/[\D]/g, '');
-    numberText = numberText.replace(/\./g, '');
+    numberText = numberText.replace(/[a-z\.\s]/gi, '');
     numberText = numberText.replace(/,/g, '.');
     let nr = parseFloat(numberText);
     if (typeof nr !== "number" || isNaN(nr)) {
