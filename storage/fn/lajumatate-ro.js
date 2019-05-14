@@ -14,7 +14,7 @@ async function pageFunction(context) {
         if (entry != null) {
             entries[entry.id] = entry;
 
-            if (process.env.SAMPLE == "1") {
+            if (process.env.SAMPLE == "1" || process.env.SAMPLE_KEY == entry.id) {
                 console.log(JSON.stringify(entry, null, 2));
             } else {
                 await adStore.setValue(entry.id, entry);
@@ -62,12 +62,12 @@ async function pageFunction(context) {
 
         for (let i = 0; i < elems.length; i++) {
             const $el = $(elems[i]);
+            const id = process.env.APIFY_DEFAULT_KEY_VALUE_STORE_ID + '-' + $el.attr('href').trim().replace(`${domain}/`, '');
             let priceText = $('span.price', $el).text().trim();
             let price = parseNumber($('span.price', $el));
             if (priceText.includes("ron")) {
                 price = Math.round(price/ronToEur);
             }
-            const id = process.env.APIFY_DEFAULT_KEY_VALUE_STORE_ID + '-' + $el.attr('href').trim().replace(`${domain}/`, '');
 
             let entry = {
                 id: id,
@@ -81,7 +81,8 @@ async function pageFunction(context) {
             };
 
             const storeEntry = await adStore.getValue(entry.id);
-            if (process.env.FORCE_ADD != "1" && storeEntry != null && storeEntry.price == entry.price) {
+            if (process.env.FORCE_ADD != "1" && storeEntry != null && storeEntry.price == entry.price
+                && process.env.SAMPLE_KEY != entry.id) {
                 skipped++;
                 continue;
             }
@@ -91,13 +92,15 @@ async function pageFunction(context) {
                 continue;
             }
 
-            context.enqueueRequest({
-                url: entry.url,
-                userData: {
-                    label: 'DETAIL',
-                    entry: entry
-                }
-            });
+            if (!('SAMPLE_KEY' in process.env) || process.env.SAMPLE_KEY == entry.id) {
+                context.enqueueRequest({
+                    url: entry.url,
+                    userData: {
+                        label: 'DETAIL',
+                        entry: entry
+                    }
+                });
+            }
             cnt++;
         }
 

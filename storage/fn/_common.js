@@ -23,7 +23,7 @@ function parseNumber($numberObj) {
     }
 
     // format number
-    numberText = numberText.replace(/[a-z\.\s]/gi, '');
+    numberText = numberText.replace(/[A-zÀ-ž\.\s]/gi, '');
     numberText = numberText.replace(/,/g, '.');
     let nr = parseFloat(numberText);
     if (typeof nr !== "number" || isNaN(nr)) {
