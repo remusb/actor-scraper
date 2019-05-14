@@ -40,12 +40,8 @@ function preProcess(entry) {
             return null;
         }
     } else if (entry.type = 'casa') {
-        if (entry.rooms > 0 && entry.rooms < configMap.minRooms) {
-            log.info(`Skipping ${entry.url} - rooms: ${entry.rooms}`);
-            return null;
-        }
         if ((entry.price < configMap.minPriceHouse || entry.price > configMap.maxPriceHouse) && entry.price > configMap.mpPriceHouse) {
-            log.info(`Skipping ${entry.url} - rooms: ${entry.rooms}`);
+            log.info(`Skipping ${entry.url} - price: ${entry.price}`);
             return null;
         }
     }
@@ -63,6 +59,10 @@ function postProcess(entry) {
             entry.title = entry.title + " - " + newPrice + " EUR";
         }
     } else if (entry.type = 'casa') {
+        if (entry.rooms > 0 && entry.rooms < configMap.minRooms) {
+            log.info(`Skipping ${entry.url} - rooms: ${entry.rooms}`);
+            return null;
+        }
         if (entry.price <= configMap.mpPriceHouse && entry.size > 0) {
             newPrice = entry.price * entry.house;
             entry.title = entry.title + " - " + newPrice + " EUR";
