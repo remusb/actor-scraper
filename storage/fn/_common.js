@@ -23,7 +23,7 @@ function parseNumber($numberObj) {
     }
 
     // format number
-    numberText = numberText.replace(/[A-zÀ-ž\.\s]/gi, '');
+    numberText = numberText.replace(/[A-zÀ-ž\.\s€]/gi, '');
     numberText = numberText.replace(/,/g, '.');
     let nr = parseFloat(numberText);
     if (typeof nr !== "number" || isNaN(nr)) {
@@ -61,6 +61,10 @@ function postProcess(entry) {
     } else if (entry.type = 'casa') {
         if (entry.rooms > 0 && entry.rooms < configMap.minRooms) {
             log.info(`Skipping ${entry.url} - rooms: ${entry.rooms}`);
+            return null;
+        }
+        if (entry.house > 0 && entry.house > 180) {
+            log.info(`Skipping ${entry.url} - house size: ${entry.house}`);
             return null;
         }
         if (entry.price <= configMap.mpPriceHouse && entry.size > 0) {

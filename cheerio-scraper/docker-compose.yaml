@@ -269,3 +269,39 @@ services:
             - SAMPLE=0
         volumes:
             - ./../storage:/storage
+
+    anuntul-ro:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        environment:
+            - APIFY_LOCAL_STORAGE_DIR=/storage
+            - APIFY_MEMORY_MBYTES=2048
+            - APIFY_HEADLESS=1
+            - APIFY_DEFAULT_DATASET_ID=anuntul-ro
+            - APIFY_DEFAULT_KEY_VALUE_STORE_ID=anuntul-ro
+            - APIFY_DEFAULT_REQUEST_QUEUE_ID=anuntul-ro
+            - START_URL=https://www.anuntul.ro/anunturi-imobiliare-vanzari/terenuri/?search%5Bsumar%5D%5BrubricaId%5D=1&search%5Bsumar%5D%5BsubrubricaId%5D=8&search%5Bzona%5D%5B%5D=Bucure%C8%99ti&search%5Bfields%5D%5B0%5D%5Bfields%5D%5B1%5D%5Bvalue%5D%5Bmin%5D=&search%5Bfields%5D%5B0%5D%5Bfields%5D%5B1%5D%5Bvalue%5D%5Bmax%5D=100000&search%5Bfields%5D%5B0%5D%5Bfields%5D%5B2%5D%5Bvalue%5D%5B%5D=0&search%5Bmetrou%5D=&search%5Bschita%5D=&search%5BcautareId%5D=&search%5Bquery%5D=&search%5Bsortf%5D=valabilitate.sort&search%5Bsorts%5D=-1&search%5Bpage%5D=&search%5Bowner%5D=
+            - PSEUDO_URL=https://www.anuntul.ro/anunturi-imobiliare-vanzari/terenuri/?search%5Bsumar%5D%5BrubricaId%5D=1&search%5Bsumar%5D%5BsubrubricaId%5D=8&search%5Bzona%5D%5B%5D=Bucure%C8%99ti&search%5Bfields%5D%5B0%5D%5Bfields%5D%5B1%5D%5Bvalue%5D%5Bmin%5D=&search%5Bfields%5D%5B0%5D%5Bfields%5D%5B1%5D%5Bvalue%5D%5Bmax%5D=100000&search%5Bfields%5D%5B0%5D%5Bfields%5D%5B2%5D%5Bvalue%5D%5B%5D=0&search%5Bmetrou%5D=&search%5Bschita%5D=&search%5BcautareId%5D=&search%5Bquery%5D=&search%5Bsortf%5D=valabilitate.sort&search%5Bsorts%5D=-1&search%5Bpage%5D=&search%5Bowner%5D=&page=[([\\d]+)]
+            - DOMAIN=https://www.anuntul.ro
+            - SAMPLE=0
+        volumes:
+            - ./../storage:/storage
+
+    anuntul-ro2:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        environment:
+            - APIFY_LOCAL_STORAGE_DIR=/storage
+            - APIFY_MEMORY_MBYTES=2048
+            - APIFY_HEADLESS=1
+            - APIFY_DEFAULT_DATASET_ID=anuntul-ro2
+            - APIFY_DEFAULT_KEY_VALUE_STORE_ID=anuntul-ro2
+            - APIFY_DEFAULT_REQUEST_QUEUE_ID=anuntul-ro2
+            - START_URL=https://www.anuntul.ro/anunturi-imobiliare-vanzari/case-vile/?search%5Bsumar%5D%5BrubricaId%5D=1&search%5Bsumar%5D%5BsubrubricaId%5D=7&search%5Bzona%5D%5B%5D=Bucure%C8%99ti&search%5Bfields%5D%5B0%5D%5Bfields%5D%5B1%5D%5Bvalue%5D%5Bmin%5D=&search%5Bfields%5D%5B0%5D%5Bfields%5D%5B1%5D%5Bvalue%5D%5Bmax%5D=&search%5Bfields%5D%5B0%5D%5Bfields%5D%5B4%5D%5Bvalue%5D%5B%5D=1&search%5Bfields%5D%5B0%5D%5Bfields%5D%5B6%5D%5Bvalue%5D%5Bmin%5D=&search%5Bfields%5D%5B0%5D%5Bfields%5D%5B6%5D%5Bvalue%5D%5Bmax%5D=&search%5Bmetrou%5D=&search%5Bschita%5D=&search%5BcautareId%5D=&search%5Bquery%5D=&search%5Bsortf%5D=valabilitate.sort&search%5Bsorts%5D=-1&search%5Bpage%5D=&search%5Bowner%5D=
+            - PSEUDO_URL=https://www.anuntul.ro/anunturi-imobiliare-vanzari/case-vile/?search%5Bsumar%5D%5BrubricaId%5D=1&search%5Bsumar%5D%5BsubrubricaId%5D=7&search%5Bzona%5D%5B0%5D=Bucure%C8%99ti&search%5Bfields%5D%5B0%5D%5Bfields%5D%5B1%5D%5Bvalue%5D%5Bmin%5D=&search%5Bfields%5D%5B0%5D%5Bfields%5D%5B1%5D%5Bvalue%5D%5Bmax%5D=&search%5Bfields%5D%5B0%5D%5Bfields%5D%5B4%5D%5Bvalue%5D%5B0%5D=1&search%5Bfields%5D%5B0%5D%5Bfields%5D%5B6%5D%5Bvalue%5D%5Bmin%5D=&search%5Bfields%5D%5B0%5D%5Bfields%5D%5B6%5D%5Bvalue%5D%5Bmax%5D=&search%5Bmetrou%5D=&search%5Bschita%5D=&search%5BcautareId%5D=&search%5Bquery%5D=&search%5Bsortf%5D=valabilitate.sort&search%5Bsorts%5D=-1&search%5Bpage%5D=&search%5Bowner%5D=&page=[([\\d]+)]
+            - DOMAIN=https://www.anuntul.ro
+            - SAMPLE=0
+        volumes:
+            - ./../storage:/storage
