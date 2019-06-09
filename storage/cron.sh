@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+cd "$DIR/.."
+git pull origin master
+
 cd "$DIR/../cheerio-scraper"
 
 FORCE_ADD=0
@@ -30,6 +33,8 @@ for file in ../storage/fn/*.js; do
 done
 
 cd "$DIR/../../actor-notify-email"
+git pull origin master
+
 /usr/local/bin/docker-compose build
 /usr/local/bin/docker-compose run --rm -e "NOTIFY_TYPE=terenuri" -e "GMAIL_USER=$GMAIL_USER" -e "GMAIL_PASSWORD=$GMAIL_PASSWORD" -e "INCLUDE_NOTIFIED=$FORCE_NOTIFY" -e "CONTAINS=Bucurestii|Jiului|Damaroaia|Bazilescu|Domenii|Mihalache" actor-notify-email
 /usr/local/bin/docker-compose run --rm -e "NOTIFY_TYPE=terenuri" -e "GMAIL_USER=$GMAIL_USER" -e "GMAIL_PASSWORD=$GMAIL_PASSWORD" -e "INCLUDE_NOTIFIED=$FORCE_NOTIFY" -e "SECTOR=1" actor-notify-email
