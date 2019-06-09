@@ -6,8 +6,9 @@ function parseText($strObj) {
     return $strObj.text().trim().replace(/\n/g, ' ').replace(/\s\s+/g, ' ');
 }
 
-function parseNumber($numberObj) {
+function parseNumber($numberObj, stdFmt) {
     let numberText = '';
+    stdFmt = stdFmt || false;
 
     if (typeof $numberObj === "number") {
         return $numberObj;
@@ -23,8 +24,12 @@ function parseNumber($numberObj) {
     }
 
     // format number
-    numberText = numberText.replace(/[A-zÀ-ž\.\s€]/gi, '');
-    numberText = numberText.replace(/,/g, '.');
+    if (!stdFmt) {
+        numberText = numberText.replace(/[:A-zÀ-ž\.\s€]/gi, '');
+        numberText = numberText.replace(/,/g, '.');
+    } else {
+        numberText = numberText.replace(/[:A-zÀ-ž,\s€]/gi, '');
+    }
     let nr = parseFloat(numberText);
     if (typeof nr !== "number" || isNaN(nr)) {
         return 0;
@@ -53,6 +58,11 @@ function postProcess(entry) {
     entry.size = parseNumber(entry.size);
     entry.domain = context.customData.DOMAIN;
 
+    if (entry.size > 0 && entry.size < configMap.minSizeTeren) {
+      log.info(`Skipping ${entry.url} - teren size: ${entry.size}`);
+      return null;
+    }
+
     if (entry.type == 'teren') {
         if (entry.price <= configMap.mpPrice && entry.size > 0) {
             newPrice = entry.price * entry.size;
@@ -63,7 +73,7 @@ function postProcess(entry) {
             log.info(`Skipping ${entry.url} - rooms: ${entry.rooms}`);
             return null;
         }
-        if (entry.house > 0 && entry.house > 180) {
+        if (entry.house > 0 && (entry.house > configMap.maxSizeHouse || entry.house < configMap.minSizeHouse)) {
             log.info(`Skipping ${entry.url} - house size: ${entry.house}`);
             return null;
         }

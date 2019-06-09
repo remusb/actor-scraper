@@ -40,4 +40,4 @@ var res = fn.replace('// COMMON', cm);
 fs.writeFileSync('/usr/src/app/src/page_function.js', res, 'utf8');
 "
 
-exec $START_SCRIPT
+timeout 5m $START_SCRIPT

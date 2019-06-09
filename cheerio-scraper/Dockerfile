@@ -1,7 +1,7 @@
 FROM apify/actor-node-basic
 
 RUN apk update && \
-    apk add bash
+    apk add bash coreutils
 
 # Copy source code
 COPY . ./

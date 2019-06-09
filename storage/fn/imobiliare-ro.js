@@ -48,7 +48,7 @@ async function pageFunction(context) {
         }
         entry.location = locationText;
         entry.detail = detaliiText;
-        entry.size = $("ul.lista-tabelara li:contains('Suprafaţă') span").text().trim();
+        entry.size = $("ul.lista-tabelara li:contains('Suprafaţă teren') span").text().trim();
 
         entry = postProcess(entry);
 
