@@ -10,5 +10,6 @@
     "minRooms": 3,
     "minSizeTeren": 280,
     "minSizeHouse": 100,
-    "maxSizeHouse": 180
+    "maxSizeHouse": 180,
+    "minYear": 1990
 }

@@ -36,14 +36,20 @@ cd "$DIR/../../actor-notify-email"
 git pull origin master
 
 /usr/local/bin/docker-compose build
-/usr/local/bin/docker-compose run --rm -e "NOTIFY_TYPE=terenuri" -e "GMAIL_USER=$GMAIL_USER" -e "GMAIL_PASSWORD=$GMAIL_PASSWORD" -e "INCLUDE_NOTIFIED=$FORCE_NOTIFY" -e "CONTAINS=Bucurestii|Jiului|Damaroaia|Bazilescu|Domenii|Mihalache" actor-notify-email
+/usr/local/bin/docker-compose run --rm -e "NOTIFY_TYPE=terenuri" -e "GMAIL_USER=$GMAIL_USER" -e "GMAIL_PASSWORD=$GMAIL_PASSWORD" -e "INCLUDE_NOTIFIED=$FORCE_NOTIFY" -e "CONTAINS=Bucurestii|Jiului|Bazilescu|Domenii|Mihalache" actor-notify-email
+/usr/local/bin/docker-compose run --rm -e "NOTIFY_TYPE=terenuri" -e "GMAIL_USER=$GMAIL_USER" -e "GMAIL_PASSWORD=$GMAIL_PASSWORD" -e "INCLUDE_NOTIFIED=$FORCE_NOTIFY" -e "CONTAINS=Floreasca|Dorobanti" actor-notify-email
+/usr/local/bin/docker-compose run --rm -e "NOTIFY_TYPE=terenuri" -e "GMAIL_USER=$GMAIL_USER" -e "GMAIL_PASSWORD=$GMAIL_PASSWORD" -e "INCLUDE_NOTIFIED=$FORCE_NOTIFY" -e "CONTAINS=Titan|Tineretului|Vatra Luminoasa" actor-notify-email
 /usr/local/bin/docker-compose run --rm -e "NOTIFY_TYPE=terenuri" -e "GMAIL_USER=$GMAIL_USER" -e "GMAIL_PASSWORD=$GMAIL_PASSWORD" -e "INCLUDE_NOTIFIED=$FORCE_NOTIFY" -e "SECTOR=1" actor-notify-email
 /usr/local/bin/docker-compose run --rm -e "NOTIFY_TYPE=terenuri" -e "GMAIL_USER=$GMAIL_USER" -e "GMAIL_PASSWORD=$GMAIL_PASSWORD" -e "INCLUDE_NOTIFIED=$FORCE_NOTIFY" actor-notify-email
 
 /usr/local/bin/docker-compose run --rm -e "SALE_TYPE=executare" -e "NOTIFY_TYPE=terenuri" -e "GMAIL_USER=$GMAIL_USER" -e "GMAIL_PASSWORD=$GMAIL_PASSWORD" -e "INCLUDE_NOTIFIED=$FORCE_NOTIFY" -e "CONTAINS=Bucurestii|Jiului|Damaroaia|Bazilescu|Domenii|Mihalache" actor-notify-email
+/usr/local/bin/docker-compose run --rm -e "SALE_TYPE=executare" -e "NOTIFY_TYPE=terenuri" -e "GMAIL_USER=$GMAIL_USER" -e "GMAIL_PASSWORD=$GMAIL_PASSWORD" -e "INCLUDE_NOTIFIED=$FORCE_NOTIFY" -e "CONTAINS=Floreasca|Dorobanti" actor-notify-email
+/usr/local/bin/docker-compose run --rm -e "SALE_TYPE=executare" -e "NOTIFY_TYPE=terenuri" -e "GMAIL_USER=$GMAIL_USER" -e "GMAIL_PASSWORD=$GMAIL_PASSWORD" -e "INCLUDE_NOTIFIED=$FORCE_NOTIFY" -e "CONTAINS=Titan|Tineretului|Vatra Luminoasa" actor-notify-email
 /usr/local/bin/docker-compose run --rm -e "SALE_TYPE=executare" -e "NOTIFY_TYPE=terenuri" -e "GMAIL_USER=$GMAIL_USER" -e "GMAIL_PASSWORD=$GMAIL_PASSWORD" -e "INCLUDE_NOTIFIED=$FORCE_NOTIFY" -e "SECTOR=1" actor-notify-email
 /usr/local/bin/docker-compose run --rm -e "SALE_TYPE=executare" -e "NOTIFY_TYPE=terenuri" -e "GMAIL_USER=$GMAIL_USER" -e "GMAIL_PASSWORD=$GMAIL_PASSWORD" -e "INCLUDE_NOTIFIED=$FORCE_NOTIFY" actor-notify-email
 
 /usr/local/bin/docker-compose run --rm -e "NOTIFY_TYPE=case" -e "GMAIL_USER=$GMAIL_USER" -e "GMAIL_PASSWORD=$GMAIL_PASSWORD" -e "INCLUDE_NOTIFIED=$FORCE_NOTIFY" -e "CONTAINS=Bucurestii|Jiului|Damaroaia|Bazilescu|Domenii|Mihalache" actor-notify-email
+/usr/local/bin/docker-compose run --rm -e "NOTIFY_TYPE=case" -e "GMAIL_USER=$GMAIL_USER" -e "GMAIL_PASSWORD=$GMAIL_PASSWORD" -e "INCLUDE_NOTIFIED=$FORCE_NOTIFY" -e "CONTAINS=Floreasca|Dorobanti" actor-notify-email
+/usr/local/bin/docker-compose run --rm -e "NOTIFY_TYPE=case" -e "GMAIL_USER=$GMAIL_USER" -e "GMAIL_PASSWORD=$GMAIL_PASSWORD" -e "INCLUDE_NOTIFIED=$FORCE_NOTIFY" -e "CONTAINS=Titan|Tineretului|Vatra Luminoasa" actor-notify-email
 /usr/local/bin/docker-compose run --rm -e "NOTIFY_TYPE=case" -e "GMAIL_USER=$GMAIL_USER" -e "GMAIL_PASSWORD=$GMAIL_PASSWORD" -e "INCLUDE_NOTIFIED=$FORCE_NOTIFY" -e "SECTOR=1" actor-notify-email
 /usr/local/bin/docker-compose run --rm -e "NOTIFY_TYPE=case" -e "GMAIL_USER=$GMAIL_USER" -e "GMAIL_PASSWORD=$GMAIL_PASSWORD" -e "INCLUDE_NOTIFIED=$FORCE_NOTIFY" actor-notify-email

@@ -69,6 +69,10 @@ function postProcess(entry) {
             entry.title = entry.title + " - " + newPrice + " EUR";
         }
     } else if (entry.type = 'casa') {
+        if (entry.year > 0 && entry.year < configMap.minYear) {
+            log.info(`Skipping ${entry.url} - year: ${entry.year}`);
+            return null;
+        }
         if (entry.rooms > 0 && entry.rooms < configMap.minRooms) {
             log.info(`Skipping ${entry.url} - rooms: ${entry.rooms}`);
             return null;
