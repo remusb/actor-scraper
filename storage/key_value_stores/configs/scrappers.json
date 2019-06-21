@@ -8,7 +8,7 @@
     "minPriceHouse": 100000,
     "mpPriceHouse": 1650,
     "minRooms": 3,
-    "minSizeTeren": 280,
+    "minSizeTeren": 260,
     "minSizeHouse": 100,
     "maxSizeHouse": 180,
     "minYear": 1990
