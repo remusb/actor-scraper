@@ -40,12 +40,12 @@ function parseNumber($numberObj, stdFmt) {
 
 function preProcess(entry) {
     if (entry.type == 'teren') {
-        if ((entry.price < configMap.minPrice || entry.price > configMap.maxPrice) && entry.price > configMap.mpPrice) {
+        if (configMap.minPrice > 0 && (entry.price < configMap.minPrice || entry.price > configMap.maxPrice) && entry.price > configMap.mpPrice) {
             log.info(`Skipping ${entry.url} - price: ${entry.price}`);
             return null;
         }
     } else if (entry.type = 'casa') {
-        if ((entry.price < configMap.minPriceHouse || entry.price > configMap.maxPriceHouse) && entry.price > configMap.mpPriceHouse) {
+        if (configMap.minPriceHouse > 0 && (entry.price < configMap.minPriceHouse || entry.price > configMap.maxPriceHouse) && entry.price > configMap.mpPriceHouse) {
             log.info(`Skipping ${entry.url} - price: ${entry.price}`);
             return null;
         }
@@ -69,15 +69,15 @@ function postProcess(entry) {
             entry.title = entry.title + " - " + newPrice + " EUR";
         }
     } else if (entry.type = 'casa') {
-        if (entry.year > 0 && entry.year < configMap.minYear) {
+        if (entry.year > 0 && configMap.minYear > 0 && entry.year < configMap.minYear) {
             log.info(`Skipping ${entry.url} - year: ${entry.year}`);
             return null;
         }
-        if (entry.rooms > 0 && entry.rooms < configMap.minRooms) {
+        if (entry.rooms > 0 && configMap.minRooms > 0 && entry.rooms < configMap.minRooms) {
             log.info(`Skipping ${entry.url} - rooms: ${entry.rooms}`);
             return null;
         }
-        if (entry.house > 0 && (entry.house > configMap.maxSizeHouse || entry.house < configMap.minSizeHouse)) {
+        if (entry.house > 0 && configMap.minSizeHouse > 0 && (entry.house > configMap.maxSizeHouse || entry.house < configMap.minSizeHouse)) {
             log.info(`Skipping ${entry.url} - house size: ${entry.house}`);
             return null;
         }
