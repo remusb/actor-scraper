@@ -5,11 +5,11 @@
     "minPrice": 10000,
     "mpPrice": 400,
     "maxPriceHouse": 250000,
-    "minPriceHouse": 100000,
+    "minPriceHouse": 30000,
     "mpPriceHouse": 1650,
-    "minRooms": 3,
+    "minRooms": 0,
     "minSizeTeren": 250,
-    "minSizeHouse": 90,
-    "maxSizeHouse": 180,
-    "minYear": 1990
+    "minSizeHouse": 0,
+    "maxSizeHouse": 0,
+    "minYear": 0
 }
