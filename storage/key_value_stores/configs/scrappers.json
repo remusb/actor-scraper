@@ -1,9 +1,9 @@
 {
     "maxRetry": 3,
     "ronToEur": 4.76,
-    "maxPrice": 120000,
+    "maxPrice": 150000,
     "minPrice": 10000,
-    "mpPrice": 400,
+    "mpPrice": 450,
     "maxPriceHouse": 250000,
     "minPriceHouse": 30000,
     "mpPriceHouse": 1650,
