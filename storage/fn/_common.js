@@ -44,7 +44,7 @@ function preProcess(entry) {
             log.info(`Skipping ${entry.url} - price: ${entry.price}`);
             return null;
         }
-    } else if (entry.type = 'casa') {
+    } else if (entry.type == 'casa') {
         if (configMap.minPriceHouse > 0 && (entry.price < configMap.minPriceHouse || entry.price > configMap.maxPriceHouse) && entry.price > configMap.mpPriceHouse) {
             log.info(`Skipping ${entry.url} - price: ${entry.price}`);
             return null;
@@ -68,7 +68,7 @@ function postProcess(entry) {
             newPrice = entry.price * entry.size;
             entry.title = entry.title + " - " + newPrice + " EUR";
         }
-    } else if (entry.type = 'casa') {
+    } else if (entry.type == 'casa') {
         if (entry.year > 0 && configMap.minYear > 0 && entry.year < configMap.minYear) {
             log.info(`Skipping ${entry.url} - year: ${entry.year}`);
             return null;
